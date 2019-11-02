@@ -11,9 +11,9 @@ function getConnection()
 }
 
 function getLastMonday($date){
-    echo 'came in as '.date("D",$date);
+
     $date = date($date) - 86400 *  (date("N",$date) - 1);
-    echo 'came in as '.date("D",$date);
+
     return $date;
 }
 

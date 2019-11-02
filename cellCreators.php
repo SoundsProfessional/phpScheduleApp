@@ -1,6 +1,7 @@
 <!--minimal creator-->
 
 <?php
+include_once('dbTdFuncs.php');
 
 class minimalCellCreator2 //this is the name that will be called from the calendarContainer's show function
 {
@@ -78,10 +79,14 @@ class availCellCreator
 //and passed anonymously through calenderiter's show function
     public function show($time, $payload, $wastedArgument)
     {
+        $monDate = getLastMonday($time);
+        $nSteps = ($time - $monDate + 86400) / 86400;
+        $db = getConnection();
         if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
+            //query for true or false value attached to monday
+            //maybe pass the payload or just alter this return string as a $content
             return "<li class='calendIterCell'><a href="
                 . $payload .
-
                 ">requiMonthCell"
                 . date('d', $time) . "</a></li>";
 
@@ -89,19 +94,24 @@ class availCellCreator
 //            S.T. YOU RUN THE FINDMONDAY FUNCTION, GET THE STRING OF THE
 //            'N' VALUE OF THE TIME OBJECT, CALL THE DATABASE WITH THE MONDAY
 //            TIMESTAMP AND THE N VALUE TO ACCESS THE STORED AVAILABILITY
-
-
         } else { //WEEK VIEW
+            //query for true or false value attached to monday
+
+            //reversing, converting this $time object to a combination of monday and steps
+
+//            availaibilty requires (name, date, is, isDefault)
+//                there are seven numbered fields
 
             $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
             $content .= "'> GO INTO BASE AND GET AVAIL: " . date('S, d', $time) .
-                "<BR/>AND A FIELD TO SET IT <input type='checkbox' name='". $time . "'></li>";
+                "<BR/>" . date('N', $time) . " <input type='checkbox' name='" . date('N', $time) . "'></li>";
             return $content;
 
         }
 
     }
 }
+
 
 class sharedSchedEmpCellCreator
 {
