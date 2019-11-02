@@ -26,8 +26,6 @@ Pull the new repository!
 </li><li>
 Import the test.sql (its in documentation) file to your instance
 </li><li>
-Create a second CreateAccount page for an employee and a link to both createAccounts from the login page
-</li><li>
 Add buttons for MakeDefault in vailability and schedule builder
 </li><li>
 Add more list items
