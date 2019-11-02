@@ -23,6 +23,8 @@ https://github.com/SoundsProfessional/phpScheduleApp
 STUFF TO DO:
 <ul><li>
 Pull the new repository!
+  <ul><li>
+Get logging in functionality working
 </li><li>
 Import the test.sql (its in documentation) file to your instance
 </li><li>
