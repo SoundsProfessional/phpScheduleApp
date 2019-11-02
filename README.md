@@ -1,3 +1,4 @@
+<!--Connor Was Here-->
 # phpScheduleApp
 
 <p>I have made numerous changes to the database per our discussion.</p>
@@ -36,3 +37,4 @@ Add more list items
 
 Please examine the class diagram, it's here in the repo.<br/><br/>
 <img src="phpClassDiagram.png" />
+

@@ -1,3 +1,4 @@
+<!--Connor Was Here-->
 <?php //initialize the vars
 include('calendarIter.php');
 
@@ -13,8 +14,6 @@ class CalendarContainer
 //that is the actual current time, the red box will draw based on realtime
 //but the reference variable will be currT
 //Also every time I say 'time' i just mean date, there is no concept of time in this app
-
-
 
 
 {
@@ -44,9 +43,6 @@ class CalendarContainer
             ' . '' . $callnIt->show($pay, $func) . '
     </ul><div class="clear"></div></div></div>';
     }
-
-
-
 
 
     private function _createNavi()
