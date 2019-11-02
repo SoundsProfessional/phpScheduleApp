@@ -1,9 +1,8 @@
+<!--Connor Was Here-->
 <?php
-
 
 require('header.php');
 require('reusable/noLogNav.php');
-//DROP IN THE LOGIC FOR THIS INSERT STATEMENT
 
 
 echo '
@@ -17,14 +16,6 @@ BIZ PASSWORD: <input type="text" name="bizPW" value="">
 echo '--------Alternatively, create an employee account---------------
 <BR/><BR/>Where do you work?';
 
-//
-
-
-//$db = new mysqli('localhost', 'user', '', 'test');
-//if (mysqli_connect_errno()) {
-//    echo 'Error: Could not connect to database.';
-//    exit;
-//}
 
 $db = getConnection();
 
