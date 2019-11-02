@@ -5,7 +5,8 @@
 <p>Examine the cellCreators file, all database query and acquisition happens in them.</p>
 <p>form submissions should happen in the interface pages, and they'll route to the indexE.php</p>
 <p>Examine the indexE.php file. It catches all of the POST for employee functions, that it where database submission happens.</p>
-<p> there's a lot of good css to be done. it will involve removing things, not adding them.</p>
+<p>The class diagram has been updated, it is attached to this document</p>
+
 
 wireframes:
 
@@ -34,4 +35,4 @@ Add more list items
 </ul>
 
 Please examine the class diagram, it's here in the repo.<br/><br/>
-<img src="phpclassdiagram.png" />
+<img src="phpClassDiagram.png" />
