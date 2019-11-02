@@ -1,18 +1,3 @@
-<!--Connor-->
-<?php
-function getConnection()
-{
-    $db = new mysqli('localhost', 'user', '', 'test');
-    if (mysqli_connect_errno()) {
-        echo 'Error: Could not connect to database.';
-        exit;
-    }
-
-    return $db;
-}
-
-?>
-
 
 <!--GERSON ESCOBAR-->
 

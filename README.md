@@ -1,7 +1,12 @@
 # phpScheduleApp
 
-<p>All database CRUD activity happens in the cell creators. In the interface pages (those listed in the nav bars) you should only change the cellCreator function call. </p>
-<p>There's a lot of good work to be done in CSS as well.</p>
+<p>I have made numerous changes to the database per our discussion.</p>
+<p>makeMonth and makeWeek have been eliminated. There is one calendar creator that takes an arg "week" to make a week, otherwise it makes a month.</p>
+<p>Examine the cellCreators file, all database query and acquisition happens in them.</p>
+<p>form submissions should happen in the interface pages, and they'll route to the indexE.php</p>
+<p>Examine the indexE.php file. It catches all of the POST for employee functions, that it where database submission happens.</p>
+<p> there's a lot of good css to be done. it will involve removing things, not adding them.</p>
+
 wireframes:
 
 https://wireframe.cc/uaR6wf<br/>
@@ -16,11 +21,11 @@ https://github.com/SoundsProfessional/phpScheduleApp
 <br>
 STUFF TO DO:
 <ul><li>
-Create the database schema
+Pull the new repository!
+</li><li>
+Import the test.sql (its in documentation) file to your instance
 </li><li>
 Create a second CreateAccount page for an employee and a link to both createAccounts from the login page
-</li><li>
-Figure out how to merge a totally orphaned branch with the master (despite totally different commit histories)
 </li><li>
 Add buttons for MakeDefault in vailability and schedule builder
 </li><li>
