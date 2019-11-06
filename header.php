@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         <?php
-        include("/opt/lampp/htdocs/Slim/phpScheduleApp/calendar.css")
+        include("calendar.css")
         ?>
     </style>
 
