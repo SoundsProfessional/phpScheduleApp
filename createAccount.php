@@ -3,6 +3,7 @@
 
 require('header.php');
 require('reusable/noLogNav.php');
+include('dbTdFuncs.php');
 
 
 echo '
@@ -19,8 +20,9 @@ echo '--------Alternatively, create an employee account---------------
 
 $db = getConnection();
 
-$getbiz = "select name, biz_id from biz_account";
+$getbiz = "select name from biz_account";
 $bizList = $db->query($getbiz);
+
 
 echo '<form action="EmpFunctions/indexE.php" method="post"><select name="bizAffiliation">';
 for ($i=0; $i < $bizList->num_rows; $i++) {
@@ -33,7 +35,7 @@ $bizList->free();
 echo '</select><br/>EMP NAME: <input type="text" name="empName" value="">
 EMP PASSWORD: <input type="text" name="empPW" value=""><input type="submit" value="OKAY"></form>';
 
-
+echo getProjectRoot();
 //
 
 require('footer.php');

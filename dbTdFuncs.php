@@ -19,4 +19,9 @@ function getLastMonday($date){
 }
 
 
+function getProjectRoot(){
+    echo dirname(dirname("footer.php"));
+
+}
+
 ?>
