@@ -12,15 +12,28 @@
 STUFF TO DO:
 <ul><li>
 Pull the new repository!
-  <ul><li>
-Get logging in functionality working
+</li>SQL work
+<ul><li>
+Import the test.sql (its in documentation) THEN<br/>
+</li><li> 
+Change the name of the database field from 'mondate' to 'sundate' in requirements and schedule THEN<br/>
 </li><li>
-Import the test.sql (its in documentation) file to your instance
+Push it back up to the git so I have it. THEN<br/>
 </li><li>
-Add buttons for MakeDefault in vailability and schedule builder
+import the file to your instance of the database
+</li>
+</ul>
+<li>
+Add buttons for MakeDefault in availability and schedule builder
+<li>
+Get logging in functionality working 
+</li><li>
+The the request process needs everything. requestQue needs a page, a databse construct, and a a page in makeRequest
+</li><li>
 </li><li>
 Add more list items
 </li>
+
 </ul></li></ul>
 
 Please examine the class diagram, it's here in the repo.<br/><br/>

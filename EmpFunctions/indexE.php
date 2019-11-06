@@ -16,6 +16,9 @@ foreach($_POST as $key => $value) {
     echo '<h2>testing ' . $key . "   " . $value . '</h2>';
 
     if ($key == 'empName') { //Coming in from a CreateAccount
+        //The problem with this function, is that it needs to be waiting for all three inputs to insert the entry ONCE.
+        //so it is being called out of order in some cases. Gotta figure that out.
+
         echo 'Welcome, '.$value."!!";
         $query = 'INSERT INTO `employee_account` (`Biz_Id`, `Name`, `Password`) VALUES ('
             .$_POST['bizAffiliation'].",".$_POST['empName'].",".$_POST['empPW'].")";
