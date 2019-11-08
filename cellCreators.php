@@ -80,15 +80,17 @@ class availCellCreator
 //and passed anonymously through calenderiter's show function
     public function show($time, $payload, $wastedArgument)
     {
-        $monDate = getLastMonday($time);
-        $nSteps = ($time - $monDate + 86400) / 86400;
+        $sunDate = getLastMonday($time);
+
+
+        $nSteps = ($time - $sunDate + 86400) / 86400;
         $db = getConnection();
         if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
             //query for true or false value attached to monday
             //maybe pass the payload or just alter this return string as a $content
             return "<li class='calendIterCell'><a href="
                 . $payload .
-                ">requiMonthCell"
+                "&currT=".$time.">"
                 . date('d', $time) . "</a></li>";
 
 //            YOU WILL NEED SPECIAL LOGIC HERE AND IN THE OTHER
@@ -104,8 +106,8 @@ class availCellCreator
 //                there are seven numbered fields
 
             $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
-            $content .= "'> GO INTO BASE AND GET AVAIL: " . date('S, d', $time) .
-                "<BR/>" . date('N', $time) . " <input type='checkbox' name='" . date('N', $time) . "'></li>";
+            $content .= "'>AVAIL: " . date('d', $time) .
+                "<BR/>" . date('N', $time) . " <input type='checkbox' name='" . date('N', $time) . "'><input type='hidden' name='sunDate' value='".$sunDate."'></li>";
             return $content;
 
         }

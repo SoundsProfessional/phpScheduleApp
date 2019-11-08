@@ -13,13 +13,19 @@ function getConnection()
 
 function getLastMonday($date){
 
-    $date = date($date) - 86400 *  (date("N",$date) - 1);
+    if(date("N",$date) == 7){
 
-    return $date;
+        return $date;
+    }
+    else{
+
+        return date($date) - (86400 *  date("N",$date));
+    }
+
 }
 
 
-function getProjectRoot(){
+function getProjectRoot(){ //I dont think this works
     echo dirname(dirname("footer.php"));
 
 }
