@@ -37,15 +37,15 @@ class CalendarIter
     {
         $this->workTime = $_GET['currT'];
         $this->cellCreator = $func;
-        $cellCreator = new $func();
+        $orphanedCellCreator = new $func();
 
-        $contents = $cellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth, $this->weekOrMonth);
+        $contents = $orphanedCellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth, $this->weekOrMonth);
         //FIRST WE ITERATE BACKWARDS
 
         while (!$this->haltDecrementation()) {
             $this->workTime -= 86400;
 
-            $contents = $cellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
+            $contents = $orphanedCellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
                     $this->weekOrMonth
                 ) . $contents;
         }
@@ -53,7 +53,7 @@ class CalendarIter
         $this->workTime = $_GET['currT'] + 86400;
         //THEN WE ITERATE FORWARDS
         while (!$this->haltIncrementation()) { //the forwards iteration
-            $contents .= $cellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
+            $contents .= $orphanedCellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
                 $this->weekOrMonth
             );
             $this->workTime += 86400;
