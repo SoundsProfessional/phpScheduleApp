@@ -24,18 +24,18 @@ $getbiz = "select name from biz_account";
 $bizList = $db->query($getbiz);
 
 
-echo '<form action="EmpFunctions/indexE.php" method="post"><select name="bizAffiliation">';
+echo '<form action="EmpFunctions/indexE.php" method="post">
+<select name="bizName">';
 for ($i=0; $i < $bizList->num_rows; $i++) {
     $row = $bizList->fetch_assoc();
     $temp = stripslashes($row['name']);
-    $id = $row['biz_id'];
-    echo '<option value="'.$id.'">'.$temp.'and'.$id.'</option>';
+    echo $temp;
+    echo '<option value="'.$temp.'">'.$temp.'</option>';
 }
 $bizList->free();
 echo '</select><br/>EMP NAME: <input type="text" name="empName" value="">
 EMP PASSWORD: <input type="text" name="empPW" value=""><input type="submit" value="OKAY"></form>';
 
-echo getProjectRoot();
 //
 
 require('footer.php');
