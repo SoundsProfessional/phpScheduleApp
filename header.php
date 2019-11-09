@@ -29,7 +29,8 @@
     <tr bgcolor="black">
         <td align="left"><img src="logo.gif" alt="TLA logo" height="70" width="70"></td>
         <td>
-            <h1>Schedule Viewer and Composer</h1>
+            <h1>Schedule Viewer and Composer</h1><br/>
+            <p class="foot">The entire contents of $_POST is being displayed here as a service:<br/>   <?php var_dump($_POST); ?></p>
         </td>
         <td align="right"><img src="logo.gif" alt="TLA logo" height="70" width="70"></td>
     </tr>

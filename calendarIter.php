@@ -43,14 +43,14 @@ class CalendarIter
         //FIRST WE ITERATE BACKWARDS
 
         while (!$this->haltDecrementation()) {
-            $this->workTime -= 86400;
+            $this->workTime = intval($this->workTime) - 86400;
 
             $contents = $orphanedCellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
                     $this->weekOrMonth
                 ) . $contents;
         }
 
-        $this->workTime = $_GET['currT'] + 86400;
+        $this->workTime = intval($_GET['currT']) + 86400;
         //THEN WE ITERATE FORWARDS
         while (!$this->haltIncrementation()) { //the forwards iteration
             $contents .= $orphanedCellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
@@ -65,12 +65,12 @@ class CalendarIter
     {
         //echo date("N" ,$this->workTime)."  and  ".intval(date('d N', $this->workTime - 86400 ))." > ".intval(date('d N', $this->workTime));
         return ( //it must be a sunnday
-            date('N', $this->workTime) == 7
+            date('N', intval($this->workTime)) == 7 //WTF AM I DOING HERE??
             && // AND the date has ascended during decrementation
             (
                 intval(date('m', $this->workTime - 86400))
                 !=
-                intval(date('m', $_GET['currT']))
+                intval(date('m', intval(['currT'])))
                 || // OR we only ever wanted to see a week anyway
                 $_GET['weekOrMonth'] == 'week'
             )
@@ -86,11 +86,11 @@ class CalendarIter
             (
                 intval(date('m', $this->workTime + 86400))
                 !=
-                intval(date('m', $_GET['currT']))
+                intval(date('m', intval($_GET['currT'])))
                 || // OR we only ever wanted to see a week anyway
                 $_GET['weekOrMonth'] == 'week'
                 || // OR the last day of the month is a Saturday
-                date('t', $_GET['currT']) == date('d', $this->workTime)
+                date('t', intval($_GET['currT'])) == date('d', intval($this->workTime))
             )
         );
     }

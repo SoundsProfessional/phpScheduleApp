@@ -26,10 +26,10 @@ echo $monthb->show(htmlentities($_SERVER['PHP_SELF']),
 //IS SPECIFYING THE CELLCREATOR. THIS IS THE ONLY THING YOU CHANGE IN THIS FILE
 
 echo 'checkbox to make this a default moving fwd, button to submit';
-echo '
-
+echo '<div style="width:85%">
+    <input type="hidden" name="currT" value='.$_GET['currT'].'>
     <input type="checkbox" name="DefaultP"><br/>
-    <input type="submit">
+    <input type="submit"></div>
 </form>
 ';
 
