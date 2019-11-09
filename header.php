@@ -1,21 +1,7 @@
-<!--Connor-->
-<?php
-function getConnection()
-{
-    $db = new mysqli('localhost', 'user', '', 'test');
-    if (mysqli_connect_errno()) {
-        echo 'Error: Could not connect to database.';
-        exit;
-    }
-
-    return $db;
-}
-
-?>
-
 
 <!--GERSON ESCOBAR-->
 
+<?php session_start(); ?>
 
 <!doctype html>
 <html class="no-js" lang="">
@@ -27,7 +13,7 @@ function getConnection()
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         <?php
-        include("/opt/lampp/htdocs/Slim/phpScheduleApp/calendar.css")
+        include("calendar.css")
         ?>
     </style>
 
@@ -43,7 +29,8 @@ function getConnection()
     <tr bgcolor="black">
         <td align="left"><img src="logo.gif" alt="TLA logo" height="70" width="70"></td>
         <td>
-            <h1>Schedule Viewer and Composer</h1>
+            <h1>Schedule Viewer and Composer</h1><br/>
+            <p class="foot">The entire contents of $_POST is being displayed here as a service:<br/>   <?php var_dump($_POST); ?></p>
         </td>
         <td align="right"><img src="logo.gif" alt="TLA logo" height="70" width="70"></td>
     </tr>

@@ -1,9 +1,11 @@
+# <!--Connor Was Here-->
+
 -- phpMyAdmin SQL Dump
 -- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 31, 2019 at 10:13 PM
+-- Generation Time: Nov 02, 2019 at 02:25 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -29,10 +31,17 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `availability` (
-  `Employee_ID` int(10) NOT NULL,
+  `Name` varchar(100) NOT NULL,
   `Date` date NOT NULL,
-  `Bool` tinyint(1) NOT NULL,
-  `DefaultVal` int(100) NOT NULL
+  `is` tinyint(1) NOT NULL,
+  `7` tinyint(4) DEFAULT 0,
+  `1` tinyint(4) DEFAULT 0,
+  `2` tinyint(4) DEFAULT 0,
+  `3` tinyint(4) DEFAULT 0,
+  `4` tinyint(4) DEFAULT 0,
+  `5` tinyint(4) DEFAULT 0,
+  `6` tinyint(4) DEFAULT 0,
+  `isDefault` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -42,20 +51,9 @@ CREATE TABLE `availability` (
 --
 
 CREATE TABLE `biz_account` (
-  `Biz_ID` int(10) NOT NULL,
   `Name` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `biz_account`
---
-
-INSERT INTO `biz_account` (`Biz_ID`, `Name`, `Password`) VALUES
-(26, 'Harrys', 'asdf'),
-(27, 'Scarys', 'asdf'),
-(28, 'pure', 'asdf'),
-(29, 'oh yeah', 'okay');
 
 -- --------------------------------------------------------
 
@@ -64,57 +62,47 @@ INSERT INTO `biz_account` (`Biz_ID`, `Name`, `Password`) VALUES
 --
 
 CREATE TABLE `employee_account` (
-  `Biz_Id` int(10) NOT NULL,
-  `Employee_ID` int(10) NOT NULL,
+  `bizName` varchar(100) NOT NULL,
   `Name` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `employee_account`
---
-
-INSERT INTO `employee_account` (`Biz_Id`, `Employee_ID`, `Name`, `Password`) VALUES
-(26, 3, 'z', 'y'),
-(26, 5, 'x', 'y'),
-(26, 6, 'Andrew', 'PW2'),
-(28, 7, 'Andrew', 'PW2'),
-(26, 8, 'attemt', 'extend'),
-(26, 9, 'attemt', ' extend'),
-(28, 10, 'wsdf', ' ewrw'),
-(28, 11, 'wsdx', ' ewrx'),
-(28, 12, 'wertwert', ' qwe'),
-(28, 13, 'd', ' qwe'),
-(28, 14, 'd', ' qwe'),
-(28, 15, 'fe', ' qwe'),
-(28, 16, 'fe', ' qwe'),
-(28, 17, 'fe', ' qwe'),
-(28, 18, 'fe', ' qwe');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `requirements`
+-- Table structure for table `explicitSchedule`
 --
 
-CREATE TABLE `requirements` (
-  `Biz_Id` int(100) NOT NULL,
-  `Date` date NOT NULL,
-  `List_Of_IntVal` int(100) NOT NULL,
-  `DefaultVal` int(100) NOT NULL
+CREATE TABLE `explicitSchedule` (
+  `bizName` varchar(100) NOT NULL,
+  `monDate` date NOT NULL,
+  `7` tinyint(4) DEFAULT NULL,
+  `1` tinyint(4) DEFAULT NULL,
+  `2` tinyint(4) DEFAULT NULL,
+  `3` tinyint(4) DEFAULT NULL,
+  `4` tinyint(4) DEFAULT NULL,
+  `5` tinyint(4) DEFAULT NULL,
+  `6` tinyint(4) DEFAULT NULL,
+  `isDefault` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `schedule`
+-- Table structure for table `requirement`
 --
 
-CREATE TABLE `schedule` (
-  `Biz_Id` int(10) NOT NULL,
-  `Date` date NOT NULL,
-  `DefaultVal` int(100) NOT NULL,
-  `List_Of_EmploList` varchar(100) NOT NULL
+CREATE TABLE `requirement` (
+  `bizName` varchar(100) NOT NULL,
+  `monDate` date NOT NULL,
+  `7` tinyint(4) DEFAULT 0,
+  `1` tinyint(4) DEFAULT 0,
+  `2` tinyint(4) DEFAULT 0,
+  `3` tinyint(4) DEFAULT 0,
+  `4` tinyint(4) DEFAULT 0,
+  `5` tinyint(4) DEFAULT 0,
+  `6` tinyint(4) DEFAULT 0,
+  `isDefault` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -125,51 +113,35 @@ CREATE TABLE `schedule` (
 -- Indexes for table `availability`
 --
 ALTER TABLE `availability`
-  ADD PRIMARY KEY (`Date`),
-  ADD KEY `Employee_ID` (`Employee_ID`);
+  ADD PRIMARY KEY (`Date`,`Name`),
+  ADD KEY `Name` (`Name`);
 
 --
 -- Indexes for table `biz_account`
 --
 ALTER TABLE `biz_account`
-  ADD PRIMARY KEY (`Biz_ID`),
-  ADD UNIQUE KEY `Name` (`Name`);
+  ADD PRIMARY KEY (`Name`);
 
 --
 -- Indexes for table `employee_account`
 --
 ALTER TABLE `employee_account`
-  ADD PRIMARY KEY (`Employee_ID`),
-  ADD KEY `Biz_Id` (`Biz_Id`);
+  ADD PRIMARY KEY (`Name`),
+  ADD KEY `bizName` (`bizName`);
 
 --
--- Indexes for table `requirements`
+-- Indexes for table `explicitSchedule`
 --
-ALTER TABLE `requirements`
-  ADD PRIMARY KEY (`Date`),
-  ADD KEY `Biz_Id` (`Biz_Id`);
+ALTER TABLE `explicitSchedule`
+  ADD PRIMARY KEY (`monDate`,`bizName`),
+  ADD KEY `bizName` (`bizName`);
 
 --
--- Indexes for table `schedule`
+-- Indexes for table `requirement`
 --
-ALTER TABLE `schedule`
-  ADD KEY `Biz_Id` (`Biz_Id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `biz_account`
---
-ALTER TABLE `biz_account`
-  MODIFY `Biz_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
---
--- AUTO_INCREMENT for table `employee_account`
---
-ALTER TABLE `employee_account`
-  MODIFY `Employee_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+ALTER TABLE `requirement`
+  ADD PRIMARY KEY (`monDate`,`bizName`),
+  ADD KEY `bizName` (`bizName`);
 
 --
 -- Constraints for dumped tables
@@ -179,19 +151,25 @@ ALTER TABLE `employee_account`
 -- Constraints for table `availability`
 --
 ALTER TABLE `availability`
-  ADD CONSTRAINT `availability_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee_account` (`Employee_ID`);
+  ADD CONSTRAINT `availability_ibfk_1` FOREIGN KEY (`Name`) REFERENCES `employee_account` (`Name`);
 
 --
 -- Constraints for table `employee_account`
 --
 ALTER TABLE `employee_account`
-  ADD CONSTRAINT `employee_account_ibfk_1` FOREIGN KEY (`Biz_Id`) REFERENCES `biz_account` (`Biz_ID`);
+  ADD CONSTRAINT `employee_account_ibfk_1` FOREIGN KEY (`bizName`) REFERENCES `biz_account` (`Name`) ON DELETE NO ACTION;
 
 --
--- Constraints for table `requirements`
+-- Constraints for table `explicitSchedule`
 --
-ALTER TABLE `requirements`
-  ADD CONSTRAINT `requirements_ibfk_1` FOREIGN KEY (`Biz_Id`) REFERENCES `biz_account` (`Biz_ID`);
+ALTER TABLE `explicitSchedule`
+  ADD CONSTRAINT `explicitSchedule_ibfk_1` FOREIGN KEY (`bizName`) REFERENCES `biz_account` (`Name`);
+
+--
+-- Constraints for table `requirement`
+--
+ALTER TABLE `requirement`
+  ADD CONSTRAINT `requirement_ibfk_1` FOREIGN KEY (`bizName`) REFERENCES `biz_account` (`Name`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

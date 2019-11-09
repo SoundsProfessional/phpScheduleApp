@@ -1,9 +1,5 @@
-<?php
-//session_start();
-//if (!isset($_SESSION['logged_in1']) || $_SESSION['logged_in1'] == false) {
-//    header("Location:index.php");
-//}
-//?>
+<!--Connor Was Here-->
+
 <!DOCTYPE HTML>
 <html>
 <?php

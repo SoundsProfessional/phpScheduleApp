@@ -1,3 +1,4 @@
+<!--Connor Was Here-->
 <?php //initialize the vars
 include('calendarIter.php');
 
@@ -13,8 +14,6 @@ class CalendarContainer
 //that is the actual current time, the red box will draw based on realtime
 //but the reference variable will be currT
 //Also every time I say 'time' i just mean date, there is no concept of time in this app
-
-
 
 
 {
@@ -46,9 +45,6 @@ class CalendarContainer
     }
 
 
-
-
-
     private function _createNavi()
     {
         if ($_GET['weekOrMonth'] != 'week') {
@@ -66,7 +62,7 @@ class CalendarContainer
             return '<div class="header">' .
                 '<a class="prev" href="'
                 . $_GET['naviHref'] . '?currT=' . $_GET['currT'] . '&weekOrMonth=month">Back Up To Month</a><span class=title>' .
-                date("M,Y", $_GET['currT']) . '</span>
+                date("M,Y", intval($_GET['currT'])) . '</span>
 </div>';
         }
     }

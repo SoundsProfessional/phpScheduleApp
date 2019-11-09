@@ -1,3 +1,4 @@
+/*<!--Connor Was Here-->*/
 /*nav*/
 div#calendar{
     margin:0px auto;
@@ -27,7 +28,7 @@ div#calendar div.header{
     text-align:center;
 }
 
-div#calendar div.header a.prev,div#calendar div.header a.next{
+div#calendar div.header a.prev,div#calendar div.header a.next, .next, .prev{
     position:absolute;
     top:0px;
     height: 17px;
@@ -43,11 +44,11 @@ div#calendar div.header span.title{
 }
 
 
-div#calendar div.header a.prev{
+div#calendar div.header a.prev, .prev{
     left:0px;
 }
 
-div#calendar div.header a.next{
+div#calendar div.header a.next, .next{
     right:0px;
 }
 
@@ -117,7 +118,7 @@ div#calendar ul.dates{
     float: left;
     list-style-type: none;
     /*width: 80px;*/
-    height: 80px;
+    /*height: 0;*/
     font-size: 15px;
 
     color: #000;
