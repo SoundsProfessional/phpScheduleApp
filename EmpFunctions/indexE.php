@@ -22,29 +22,53 @@ echo '<p></p></div>';
 
 //    [^a-z]
 
-if (preg_grep ( '/sunDate/', array_keys($_POST))) {
+if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
+    $_POST['sunDate'] = $_POST['sunDateMirror'];
 
     $queryPrefix = "insert into availability (`Name`, `Date`, `is";
-    $numDayTrue =   preg_grep ( '/\d/', array_values($_POST), true);
+    //this one is the condition that there is not an entry in the table
+    $queryPostfix = " on duplicate key update "; //`is`=
+    //$queryPostfix is for the condition where there is already an entry in the table
+    //examine the SQL scratch pad in Documentation to see the underlying sql.
+    $numDayTrue =   preg_grep ( '/\d{1}/', array_keys($_POST), true);
 
-    foreach ($numDayTrue as $k=>$v) {
-        echo $k." and ".$v."<br/>";
-        $queryPrefix .= '`, `'.$k;
-        $querySuffix .= ", 1";
+
+
+
+    foreach ($numDayTrue as $k=>$v) { //this part creates the numeric fields
+        //echo intval($k)." and ".$v."<br/>";  //noise
+        $queryPrefix .= '`, `'.$k;           //put in the field, ending quote for the previous and leading quote for itself
+        $queryPostfix .= '`'.$k."`=1,";   //closing quote for the previous one, the field name,
             }
-    $queryPrefix .= "`) values ('".$_SESSION['empName']."', '".date('Y-m-d', $_POST['sunDate'])
-    ."', 1 ".str_repeat(', 1 ', count($numDayTrue)).")";
+    //$queryPostfix= rtrim($queryPostfix, ","); //dropping the last comma from the numeric fields
+    $queryPostfix .="`is`="; //`is` is the last field we add for the update conditon
 
-    echo 'I intend to post the following: <br/>'.$queryPrefix.'<br/>';
-    $resp = $db->query($queryPrefix) or die('<br/>BUT I FAILED for unknown reasons. Maybe duplicate monDate?<br/>The ability to UPDATE an availability is necessary but not implemented. ');
+    //this block is the midfix, it builds the values out to the right
+    $queryPrefix .= "`) values ('"
+        .$_SESSION['empName']."', '".
+        date('Y-m-d', $_POST['sunDate'])
+    ."', ";  //the above is for the insert values, date and name fields
+
+    if(isset($_POST['DefaultP'])) { //does the IS key
+        if ($_POST['DefaultP'] != 0) {
+            $queryPrefix .= '1'; //for the insert condition
+            $queryPostfix .= '1'; //for the update condition
+        } else {
+            $queryPrefix .= '0';
+            $queryPostfix .= '0';
+        }
+    }
+    else
+    {$queryPrefix .=  '0';
+        $queryPostfix .=  '0';}
+
+    $queryPrefix .= str_repeat(', 1 ', count($numDayTrue)).")";
+        //this is the value that is always added to numeric fields
 
 
-
-
+    echo 'I intend to post the following: <br/>'.$queryPrefix.$queryPostfix.'<br/>';
+    $resp = $db->query($queryPrefix.$queryPostfix) or die('<br/>BUT I FAILED for unknown reasons. Maybe duplicate monDate?<br/>The ability to UPDATE an availability is necessary but not implemented. ');
 //    insert into availability (`name`, `date`, `is`, `1`) VALUES ('Connor', '2019-04-11', 1, 1);
-
-
-
 
     }
 

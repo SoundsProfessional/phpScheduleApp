@@ -65,7 +65,7 @@ class requirementsCellCreator
                 . date('d', $time) . "</a></li>";
         } else { //WEEK VIEW
             $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
-            $content .= "'>requiWeekCell" . date('S, d', $time) . " time/realtime " . $time . "==" . time() . "</li>";
+            $content .= "'>requiWeekCell" . date('S, d', intval($time)) . " time/realtime " . $time . "==" . time() . "</li>";
             return $content;
 
         }
@@ -80,34 +80,28 @@ class availCellCreator
 //and passed anonymously through calenderiter's show function
     public function show($time, $payload, $wastedArgument)
     {
-        $sunDate = getLastMonday($time);
-
-
-        $nSteps = ($time - $sunDate + 86400) / 86400;
+        $_POST['sunDate'] = getLastMonday($time);
+        $sunDate = $_POST['sunDate'];
+        $nSteps = ($time - intval($_POST['sunDate']) + 86400) / 86400;
         $db = getConnection();
         if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
-            //query for true or false value attached to monday
-            //maybe pass the payload or just alter this return string as a $content
-            return "<li class='calendIterCell'><a href="
+           return "<li class='calendIterCell'><a href="
                 . $payload .
-                "&currT=".$time.">"
+                "&currT=".$time."> availability = ".
+               getDayAvail($sunDate, $_GET['currT']).'<br/>'
+
                 . date('d', $time) . "</a></li>";
 
-//            YOU WILL NEED SPECIAL LOGIC HERE AND IN THE OTHER
-//            S.T. YOU RUN THE FINDMONDAY FUNCTION, GET THE STRING OF THE
-//            'N' VALUE OF THE TIME OBJECT, CALL THE DATABASE WITH THE MONDAY
-//            TIMESTAMP AND THE N VALUE TO ACCESS THE STORED AVAILABILITY
         } else { //WEEK VIEW
-            //query for true or false value attached to monday
 
-            //reversing, converting this $time object to a combination of monday and steps
 
-//            availaibilty requires (name, date, is, isDefault)
-//                there are seven numbered fields
 
             $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
-            $content .= "'>AVAIL: " . date('d', $time) .
-                "<BR/>" . date('N', $time) . " <input type='checkbox' name='" . date('N', $time) . "'><input type='hidden' name='sunDate' value='".$sunDate."'></li>";
+            $content .= "'>AVAIL: " . getDayAvail($sunDate, $_GET['currT']) .
+                "<BR/>" . date('d', $time) . " <input type='checkbox' name='" . date('N', $time) . "'>
+                <input type='hidden' name='sunDateMirror' value='".$sunDate."'>
+                <input type='hidden' name='sunDate' value='".$sunDate."'>
+                </li>";
             return $content;
 
         }
@@ -118,20 +112,29 @@ class availCellCreator
 
 class sharedSchedEmpCellCreator
 {
+//    CONNOR: THIS FUNCTIONALITY BELONGS IN THE BIZ PIPELINE, emp sched view IS LARGELY UNDEVELOPED
+
 //this is only a prototype, all cell creators will now have a week and month dimension.
 //the payload will be defined at the caller of the calenderiter class
 //and passed anonymously through calenderiter's show function
     public function show($time, $payload, $wastedArgument)
     {
+        $_POST['sunDate'] = getLastMonday($time);
+        $listAvailables = getListofAvailableEmp($_POST['sunDate'],$time  );
         if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
+
+            $content = $listAvailables;
             return "<li class='calendIterCell'><a href="
                 . $payload .
 
-                ">sharedEmpMonthCell"
-                . date('d', $time) . "</a></li>";
+                "&currT='".$time. "'>WHAT GOES HERE<br/>"
+                . date('d', intval($time)) . "</a></li>";
+
+
         } else { //WEEK VIEW
-            $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
-            $content .= "'>sharedEmpWeekCell" . date('S, d', $time) . " time/realtime " . $time . "==" . time() . "</li>";
+            $content = "<li class='calendIterCell'>".date('d', intval($time)) . " <br/>"; //see that it lacks an inner close quote
+            $content .= '<div>section 1</div>';
+            $content .= '<div>'.$listAvailables.'</div>';
             return $content;
 
         }

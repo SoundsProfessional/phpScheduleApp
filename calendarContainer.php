@@ -62,7 +62,7 @@ class CalendarContainer
             return '<div class="header">' .
                 '<a class="prev" href="'
                 . $_GET['naviHref'] . '?currT=' . $_GET['currT'] . '&weekOrMonth=month">Back Up To Month</a><span class=title>' .
-                date("M,Y", $_GET['currT']) . '</span>
+                date("M,Y", intval($_GET['currT'])) . '</span>
 </div>';
         }
     }
