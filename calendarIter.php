@@ -36,20 +36,23 @@ class CalendarIter
 
     {
         $this->workTime = $_GET['currT'];
-        $this->cellCreator = $func;
-        $orphanedCellCreator = new $func(); //what was I doing here, I am confused.
+        $this->cellCreator = new $func();
+        //$orphanedCellCreator = new $func(); //what was I doing here, I am confused.
+        //none of these creators have constructors, i guess maybe there is a default constructor for them.
+
+
 
 //        $this->cellCreator = $func;
 //        $orphanedCellCreator = new $func(); //what was I doing here, I am confused.
 
 
-        $contents = $orphanedCellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth, $this->weekOrMonth);
+        $contents = $this->cellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth, $this->weekOrMonth);
         //FIRST WE ITERATE BACKWARDS
 
         while (!$this->haltDecrementation()) {
             $this->workTime = intval($this->workTime) - 86400;
-            echo 'dec' . $this->workTime;
-            $contents = $orphanedCellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
+            //echo 'dec' . $this->workTime;
+            $contents = $this->cellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
                     $this->weekOrMonth
                 ) . $contents;
         }
@@ -57,7 +60,7 @@ class CalendarIter
         $this->workTime = intval($_GET['currT']) + 86400;
         //THEN WE ITERATE FORWARDS
         while (!$this->haltIncrementation()) { //the forwards iteration
-            $contents .= $orphanedCellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
+            $contents .= $this->cellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
                 $this->weekOrMonth
             );
             $this->workTime += 86400;
@@ -69,7 +72,7 @@ class CalendarIter
     function haltDecrementation()
     {
         //echo date("N" ,$this->workTime)."  and  ".intval(date('d N', $this->workTime - 86400 ))." > ".intval(date('d N', $this->workTime));
-        echo date('D', intval($this->workTime));
+
         return ( //it must be a sunnday
 
             date('N', intval($this->workTime)) == 7 //WTF AM I DOING HERE??

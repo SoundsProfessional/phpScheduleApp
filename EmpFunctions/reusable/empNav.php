@@ -1,19 +1,31 @@
 <!--GERSON ESCOBAR-->
+<?php
+function tail()
+{
+    $suffix = '?weekOrMonth=month';
+    if (isset($_GET['currT'])) {
+        return $suffix . "&currT=" . $_GET['currT'];
+    } else {
+        return $suffix . "&currT=" . time();
+    }
+}
+
+?>
 
 
 <table width="100%" bgcolor="white" cellpadding="4" cellspacing="4">
     <tr>
         <td width="25%">
-            <span class="menu"><a href="indexE.php">Home</a></span>
+            <span class="menu"><a href="indexE.php<?php echo tail(); ?>">Home</a></span>
         </td>
         <td width="25%">
-            <span class="menu"><a href="availMonth.php?weekOrMonth=month"">Set Availability</a></span>
+            <span class="menu"><a href="availMonth.php<?php echo tail(); ?>">Set Availability</a></span>
         </td>
         <td width="25%">
-            <span class="menu"><a href="sharedScheduleEmp.php?weekOrMonth=month"">Shared Schedule</a></span>
+            <span class="menu"><a href="sharedScheduleEmp.php<?php echo tail(); ?>">Shared Schedule</a></span>
         </td>
         <td width="25%">
-            <span class="menu"><a href="makeRequest.php?weekOrMonth=month"">Message the MGT</a></span>
+            <span class="menu"><a href="makeRequest.php<?php echo tail(); ?>">Message the MGT</a></span>
         </td>
 
     </tr>
