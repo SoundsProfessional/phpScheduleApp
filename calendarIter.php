@@ -37,14 +37,18 @@ class CalendarIter
     {
         $this->workTime = $_GET['currT'];
         $this->cellCreator = $func;
-        $orphanedCellCreator = new $func();
+        $orphanedCellCreator = new $func(); //what was I doing here, I am confused.
+
+//        $this->cellCreator = $func;
+//        $orphanedCellCreator = new $func(); //what was I doing here, I am confused.
+
 
         $contents = $orphanedCellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth, $this->weekOrMonth);
         //FIRST WE ITERATE BACKWARDS
 
         while (!$this->haltDecrementation()) {
             $this->workTime = intval($this->workTime) - 86400;
-
+            echo 'dec' . $this->workTime;
             $contents = $orphanedCellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
                     $this->weekOrMonth
                 ) . $contents;
@@ -57,6 +61,7 @@ class CalendarIter
                 $this->weekOrMonth
             );
             $this->workTime += 86400;
+//            echo 'inc'.$this->workTime;
         }
         return $contents;
     }
@@ -64,13 +69,17 @@ class CalendarIter
     function haltDecrementation()
     {
         //echo date("N" ,$this->workTime)."  and  ".intval(date('d N', $this->workTime - 86400 ))." > ".intval(date('d N', $this->workTime));
+        echo date('D', intval($this->workTime));
         return ( //it must be a sunnday
+
             date('N', intval($this->workTime)) == 7 //WTF AM I DOING HERE??
             && // AND the date has ascended during decrementation
             (
                 intval(date('m', $this->workTime - 86400))
                 !=
-                intval(date('m', intval(['currT'])))
+                intval(date('m', intval($_GET['currT'])))
+
+                //2nd arg was //intval(['currT'])
                 || // OR we only ever wanted to see a week anyway
                 $_GET['weekOrMonth'] == 'week'
             )
