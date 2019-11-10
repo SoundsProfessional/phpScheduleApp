@@ -81,7 +81,7 @@ if (preg_grep ( '/empName/', array_keys($_POST))) {
     $_SESSION['bizName'] = $_POST['bizName'];
     echo 'Welcome, ' . $_SESSION['empName'] . "!!";
     $query = 'INSERT INTO employee_account (bizName, Name, Password) VALUES (\''
-        . $_POST['bizName'] . "','" . $_POST['empName'] . "','" . $_POST['empPW'] . "')";
+        . $_POST['bizName'] . "','" . $_POST['empName'] . "','" . $_POST['empPW'] . "') on duplicate key update employee_account.Password = employee_account.Password;";
     echo 'I intend to post the following: <br/>' . $query;
     $db->query($query) or die('<br/>BUT I FAILED .. probably a duplicate name.');
 }

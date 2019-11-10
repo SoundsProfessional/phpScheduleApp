@@ -3,6 +3,18 @@
 
 <?php
 
+class scheduleSubmission
+{
+//    Initializes and generates the string to schedule a whole week
+    public function __construct()
+    {
+
+    }
+
+}
+
+
+
 
 //get Days Availability
 function getDayAvail($monDate, $currT){ //This returns TRUE or FALSE if EMP is available this day.
@@ -33,22 +45,20 @@ function getListofAvailableEmp($monDate, $currT)
     union
     (select name from availability where date <= '".$monDate."' and `IS` = 1 and `".$dayIncr."` = 1 group by date limit 1 )";
 
-
     $db=getConnection();
-    $content = 'avail:';
     $result = $db->query($query) or die ("gettingListofAvailableEmployees failed");
-    $num_results = $result->num_rows;
-    $content.= $num_results;
+    $content = $result->num_rows . ' Available:<br/>';
+
     if(!$result) {
         echo "Cannot run query.";
         exit;
     }
 
-    $row1 = $result->fetch_assoc();
-//    echo print_r($row1);
-    if($row1) { foreach( $row1 as $k){
-        $content .= "<br/>".$k; }
+    for ($i = 0; $i < $result->num_rows; $i++) {
+        $row = $result->fetch_assoc();
+        $content .= $row['name'] . "<br/>";
     }
+
 
     return $content;
 }

@@ -32,6 +32,7 @@ class schedCellCreator
 //and passed anonymously through calenderiter's show function
     public function show($time, $payload, $wastedArgument)
     {
+        echo '.';
         if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
             return "<li class='calendIterCell'><a href="
                 . $payload .
