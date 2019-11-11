@@ -1,7 +1,13 @@
-
-<!--GERSON ESCOBAR-->
-
-<?php session_start(); ?>
+<?php
+if (session_status() == PHP_SESSION_NONE || session_id() == '') {
+    session_start();
+}
+//<!--GERSON ESCOBAR-->
+if (isset($_GET['empName'])) {
+    $_SESSION['empName'] = $_GET['empName'];
+}
+include_once('dbTdFuncs.php');
+?>
 
 <!doctype html>
 <html class="no-js" lang="">
@@ -27,12 +33,15 @@
 <body>
 <table width="100%" cellpadding="12" cellspacing="0" border="0">
     <tr bgcolor="black">
-        <td align="left"><img src="logo.gif" alt="TLA logo" height="70" width="70"></td>
+        <td align="left"><a href="../BizFunctions/indexB.php"><img src="logo.gif" alt="TLA logo" height="70" width="70"></a>
+        </td>
         <td>
             <h1>Schedule Viewer and Composer</h1><br/>
-            <p class="foot">The entire contents of $_POST is being displayed here as a service:<br/>   <?php var_dump($_POST); ?></p>
+            <p class="foot">The entire contents of $_POST is being displayed here as a service:
+                <br/> <?php echo getVariableDump(); ?></p>
         </td>
-        <td align="right"><img src="logo.gif" alt="TLA logo" height="70" width="70"></td>
+        <td align="right"><a href="../EmpFunctions/indexE.php"><img src="logo.gif" alt="TLA logo" height="70"
+                                                                    width="70"></a></td>
     </tr>
 </table>
 

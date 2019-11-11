@@ -1,12 +1,15 @@
-<!--Connor Was Here-->
-<!--BOTH DATABASE AND TIMEDATE FUNCTIONS ARE HERE-->
-
 <?php
+if (session_status() == PHP_SESSION_NONE || session_id() == '') {
+    session_start();
+}
+//<!--Connor Was Here-->
+//<!--BOTH DATABASE AND TIMEDATE FUNCTIONS ARE HERE-->
 
 
 function submitString($query)
 {
     $connec = getConnection();
+    echo "<BR/>String Submission In Its Entirity<br/>" . $query;
     if (!mysqli_query($connec, $query)) {
         echo("Error description: " . mysqli_error($connec));
     }
@@ -17,15 +20,54 @@ function submitString($query)
 class scheduleSubmission
 {
 //    Initializes and generates the string to schedule a whole week
-    public function __construct()
+    private static $instance = null;
+
+    private function __construct($bizName, $monDate)
     {
+        $this->bizName = $bizName;
+        $this->monDate = $monDate;
+        echo 'Actually COMNSTRUCTING' . $this->bizName . " " . SQLfmtDate($this->monDate) . "<br/>";
+        $this->query = "delete from explicitListDayEmp where bizName = '" . $bizName . "' and monDate = '" . SQLfmtDate($monDate) . "';";
+    }
+
+    public function append($continuation)
+    {
+        $this->query .= $continuation;
+        echo $continuation . "<br/>";
+        //echo'<br/>'.$this->query.'<br/>';
+    }
+
+    public function execute()
+    {
+        submitString($this->query);
+        self::$instance = null;
+        echo "<br/>" . $this->bizName . " " . SQLfmtDate($this->monDate) . " has been executed and cleared.<br/>";
 
     }
 
+    public function __toString()
+    {
+        return " {{{" . $this->query . "}}}<br/>";
+    }
+
+    public static function getInstance($bizName, $monDate)
+    {
+        if (self::$instance == null) {
+            self::$instance = new scheduleSubmission($bizName, $monDate);
+        }
+        return self::$instance;
+    }
 }
 
 
-
+function getVariableDump()
+{
+    return '
+    </br>printing all arrays as a courtesy.
+    <br/>' . var_dump($_GET) .
+        "<br/>" . var_dump($_POST) .
+        "<br/>" . var_dump($_SESSION);
+}
 
 //get Days Availability
 function getDayAvail($monDate, $currT){ //This returns TRUE or FALSE if EMP is available this day.

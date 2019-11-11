@@ -3,7 +3,7 @@
 
 require('header.php');
 require('reusable/noLogNav.php');
-include('dbTdFuncs.php');
+include_once('dbTdFuncs.php');
 
 
 echo '

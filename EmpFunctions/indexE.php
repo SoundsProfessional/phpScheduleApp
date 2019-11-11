@@ -2,7 +2,7 @@
 <?php
 require('../header.php');
 require('reusable/empNav.php');
-include('../dbTdFuncs.php');
+include_once('../dbTdFuncs.php');
 
 $db = getConnection();
 $queryPrefix = null;
@@ -11,7 +11,8 @@ $queryMidfix = "";
 $_POST = array_filter($_POST);
 
 if(!isset($_SESSION['empName'])){
-    echo 'SOMETHING IS TERRIBLY WRONG, I DONT KNOW WHO YOU ARE!';
+    $_SESSION['empName'] = "tuyg";
+    echo 'SOMETHING IS TERRIBLY WRONG, I DONT KNOW WHO YOU ARE. PROCEEDING WITH THE SIMULATION, YOUR NAME IS tuyg';
 }
 
 echo '<div><p>This Page is where linked pages (those in the navbar) output their stuff. The database functions happen here.</p>';
