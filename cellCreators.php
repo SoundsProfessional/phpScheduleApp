@@ -17,8 +17,9 @@ class schedCellCreator
     public function show($time, $payload, $wastedArgument)
     {
         if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
+
             return "<li class='calendIterCell'><a href="
-                . $payload .
+                . $payload . "&currT=" . $time .
                 "><h3>Q/Q/Q<br/>" . SQLfmtDate($time) . "</h3>";
 
 
@@ -115,8 +116,6 @@ class availCellCreator
         $sunDate = getLastMonday($time);
 
 
-        $nSteps = ($time - $sunDate + 86400) / 86400;
-        $db = getConnection();
         if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
             //query for true or false value attached to monday
             //maybe pass the payload or just alter this return string as a $content
@@ -134,7 +133,9 @@ class availCellCreator
             $content .= "'>";
 
             $content .= getDayAvail($sunDate, $_GET['currT']) .
-                "<BR/>" . date('d', $time) . " <input type='checkbox' name='" . date('N', $time) . "'>
+                "<BR/>" . date('d', $time) . " 
+                <input type='checkbox' name='" . date('N', $time) . "'>
+                
                 <input type='hidden' name='sunDateMirror' value='".$sunDate."'>
                 <input type='hidden' name='sunDate' value='".$sunDate."'>
                 </li>";

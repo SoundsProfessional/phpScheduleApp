@@ -25,7 +25,6 @@ echo $monthb->show(htmlentities($_SERVER['PHP_SELF']),
     'availCellCreator');
 //IS SPECIFYING THE CELLCREATOR. THIS IS THE ONLY THING YOU CHANGE IN THIS FILE
 
-echo 'checkbox to make this a default moving fwd, button to submit';
 echo '</form>';
 
 require('../footer.php');

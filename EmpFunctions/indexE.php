@@ -11,8 +11,12 @@ $queryMidfix = "";
 $_POST = array_filter($_POST);
 
 if(!isset($_SESSION['empName'])){
-    $_SESSION['empName'] = "tuyg";
-    echo 'SOMETHING IS TERRIBLY WRONG, I DONT KNOW WHO YOU ARE. PROCEEDING WITH THE SIMULATION, YOUR NAME IS tuyg';
+    if (isset($_POST['empName'])) {
+        $_SESSION['empName'] = $_POST['empName'];
+    } else {
+        $_SESSION['empName'] = "tuyg";
+        echo 'SOMETHING IS TERRIBLY WRONG, I DONT KNOW WHO YOU ARE. PROCEEDING WITH THE SIMULATION, YOUR NAME IS tuyg';
+    }
 }
 
 echo '<div><p>This Page is where linked pages (those in the navbar) output their stuff. The database functions happen here.</p>';
@@ -26,21 +30,25 @@ echo '<p></p></div>';
 if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
     $_POST['sunDate'] = $_POST['sunDateMirror'];
 
-    $queryPrefix = "insert into availability (`Name`, `Date`, `is";
+    $queryPrefix = "insert into availability (`Name`, `Date`, `BizName`, `is";
     //this one is the condition that there is not an entry in the table
     $queryPostfix = " on duplicate key update "; //`is`=
     //$queryPostfix is for the condition where there is already an entry in the table
     //examine the SQL scratch pad in Documentation to see the underlying sql.
-    $numDayTrue =   preg_grep ( '/\d{1}/', array_keys($_POST), true);
+    $queryMidFix = ""; //THIS IS JUST SOME ONES
 
-
-
-
+    $numDayTrue = preg_grep('/^\d{1, 2}$/', $_POST, true);
+//    $whichAreOn =   preg_grep ( '/on/', array_values($_POST), true);
+//    foreach ($whichAreOn as $w){ echo "((".$w."))";}
     foreach ($numDayTrue as $k=>$v) { //this part creates the numeric fields
-        //echo intval($k)." and ".$v."<br/>";  //noise
-        $queryPrefix .= '`, `'.$k;           //put in the field, ending quote for the previous and leading quote for itself
-        $queryPostfix .= '`'.$k."`=1,";   //closing quote for the previous one, the field name,
-            }
+        //echo $_POST[$k]. " -- ".$k ."--".$v.'<br/>';
+        if ($_POST[$k] == 'on' && $k != 'DefaultP') {
+            echo "make a thing for " . $k;
+            $queryMidFix .= ", 1";
+            $queryPrefix .= '`, `' . $k;           //put in the field, ending quote for the previous and leading quote for itself
+            $queryPostfix .= '`' . $k . "`=1,";   //closing quote for the previous one, the field name,
+        }
+    }
     //$queryPostfix= rtrim($queryPostfix, ","); //dropping the last comma from the numeric fields
     $queryPostfix .="`is`="; //`is` is the last field we add for the update conditon
 
@@ -48,7 +56,7 @@ if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
     $queryPrefix .= "`) values ('"
         .$_SESSION['empName']."', '".
         date('Y-m-d', $_POST['sunDate'])
-    ."', ";  //the above is for the insert values, date and name fields
+        . "', '" . $_SESSION['bizName'] . "',";  //the above is for the insert values, date and name fields
 
     if(isset($_POST['DefaultP'])) { //does the IS key
         if ($_POST['DefaultP'] != 0) {
@@ -63,12 +71,12 @@ if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
     {$queryPrefix .=  '0';
         $queryPostfix .=  '0';}
 
-    $queryPrefix .= str_repeat(', 1 ', count($numDayTrue)).")";
+
         //this is the value that is always added to numeric fields
 
 
     echo 'I intend to post the following: <br/>'.$queryPrefix.$queryPostfix.'<br/>';
-    $resp = $db->query($queryPrefix.$queryPostfix) or die('<br/>BUT I FAILED for unknown reasons. Maybe duplicate monDate?<br/>The ability to UPDATE an availability is necessary but not implemented. ');
+    submitString($queryPrefix . $queryMidFix . ")" . $queryPostfix);
 //    insert into availability (`name`, `date`, `is`, `1`) VALUES ('Connor', '2019-04-11', 1, 1);
 
     }
@@ -82,8 +90,9 @@ if (preg_grep ( '/empName/', array_keys($_POST))) {
     echo 'Welcome, ' . $_SESSION['empName'] . "!!";
     $query = 'INSERT INTO employee_account (bizName, Name, Password) VALUES (\''
         . $_POST['bizName'] . "','" . $_POST['empName'] . "','" . $_POST['empPW'] . "') on duplicate key update employee_account.Password = employee_account.Password;";
-    echo 'I intend to post the following: <br/>' . $query;
-    $db->query($query) or die('<br/>BUT I FAILED .. probably a duplicate name.');
+
+    submitString($query);
+//    $db->query($query) or die('<br/>BUT I FAILED .. probably a duplicate name.');
 }
 
 

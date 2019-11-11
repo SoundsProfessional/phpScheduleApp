@@ -27,7 +27,8 @@ if (preg_grep('/worker/', array_keys($_POST))) {
     foreach ($statementsToMake as $k => $v) { //this part creates the numeric fields
         $name = $_POST[$v];
         $tempDate = $v;
-        echo "<BR/>" . $v . "!!!<BR/>";
+
+
         $submission = scheduleSubmission::getInstance($_SESSION['bizName'], getLastMonday($v));
 
         $singleInsertStatement = "insert into explicitListDayEmp" .
@@ -40,14 +41,12 @@ if (preg_grep('/worker/', array_keys($_POST))) {
     }
 
     if (isset($_POST['DefaultP'])) {
-        echo '<br/>' . $submission . '<br/>';
-
         $submission->append(
             "update explicitListDayEmp SET isDefault = '1' where bizname='"
             . $_SESSION['bizName'] . "' and mondate= '" . SQLfmtDate(getLastMonday($tempDate)) . "';"
         );
     }
-    echo '<br/>' . $submission . '<br/>';
+
 
     $submission->execute();
 }
