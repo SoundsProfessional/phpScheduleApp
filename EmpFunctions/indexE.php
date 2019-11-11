@@ -74,7 +74,6 @@ if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
 
 
 
-
 if (preg_grep ( '/empName/', array_keys($_POST))) {
     //User is coming in from createAccount
     $_SESSION['empName'] = $_POST['empName'];
@@ -85,64 +84,6 @@ if (preg_grep ( '/empName/', array_keys($_POST))) {
     echo 'I intend to post the following: <br/>' . $query;
     $db->query($query) or die('<br/>BUT I FAILED .. probably a duplicate name.');
 }
-
-
-
-
-
-//foreach($_POST as $key => $value) {
-//    //this preg_match returns
-//    $match = preg_match('/^[0-9][0-9]$/', $temp);
-//    echo  '<br>\'/^[0-9][0-9]$/\'------>'.$match. "< matched on key.<br/>";
-//    $match = preg_match('\w$/', $key);
-//    echo '\w$/ ------>'.$match."<br/>";
-//
-//    echo '<h2>testing ' . $key . "   " . $value . '</h2><br/>';
-//
-//
-//
-//    if (false) { //Coming in from a CreateAccount
-//        //The problem with this function, is that it needs to be waiting for all three inputs to insert the entry ONCE.
-//        //so it is being called out of order in some cases. Gotta figure that out.
-//        //It should be constructed as one big variable which is later taken apart, OR
-//        //use a REGEX to grab the right keys
-//
-//        echo 'Welcome, '.$value."!!";
-//        $query = 'INSERT INTO `employee_account` (`Biz_Id`, `Name`, `Password`) VALUES ('
-//            .$_POST['bizName'].",".$_POST['empName'].",".$_POST['empPW'].")";
-//        $db->query($query);
-//    }
-//
-//    if (is_numeric($key) && intval($key) > 100) { //This absolutely must be a SUNDAY!!!!
-//        // Coming in from availMonth
-//        echo 'avail: '.date("N d",$key).", ";
-//        if ($longQuery == null) {
-//            $longQuery = 'insert into availability (name, date, 0, 0';
-//        }
-//    }
-//
-//
-//    if (is_numeric($key) && intval($key) <= 100) {
-//        if ($querySuffix == null) {
-//            echo 'init new querysuffix<br/>';
-//            $querySuffix = ') values ("' . $value == 'on' ? 1 : 0;
-//            $midquery .= "\", \"" . $key;
-//        } else {
-//            echo 'appendQS' . $value . "  " . $key . '<br/>';
-//            $querySuffix .= ', ' . $value == 'on' ? 1 : 0;
-//            echo '';
-//            $midquery .= ", " . $key;
-//        }
-//
-//
-//    }
-//    $longQuery .= $midquery . $querySuffix . "\")";
-//    echo $longQuery;
-//    $db->query($longQuery);
-//    //put long, midfix, suffix, together
-//    //add the last parenthes
-//    //throw it into the database all nice
-//}
 
 
 ?>

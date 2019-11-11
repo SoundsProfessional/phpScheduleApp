@@ -41,7 +41,7 @@ class CalendarContainer
         <div class="clear"></div><ul class="dates">
 
             ' . '' . $callnIt->show($pay, $func) . '
-    </ul><div class="clear"></div></div></div>';
+    <div class="clear"></div></div></div>';
     }
 
 

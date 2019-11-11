@@ -20,11 +20,5 @@ echo $monthsc->show(htmlentities($_SERVER['PHP_SELF']), 'schedCellCreator');
 require('../footer.php');
 ?>
 
-$makeMonth = new MakeMonth('scheduleBuilder.php',
-    new SchedCellCreatorMonthBiz);
-//the cell creator above is what distinguishes the different month views in the process
-//API or other DB functions will be affected by the cellCreator in play.
-echo $makeMonth->show();
 
-require('../footer.php');
 

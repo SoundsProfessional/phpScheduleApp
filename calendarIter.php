@@ -66,6 +66,14 @@ class CalendarIter
             $this->workTime += 86400;
 //            echo 'inc'.$this->workTime;
         }
+        $contents .= '</ul>';
+        if ($_GET['weekOrMonth'] == 'week') {
+
+            $contents .= '<div class="clear" style="width:100%">
+    <input type="hidden" name="currT" value=' . $_GET['currT'] . '>
+    <input type="checkbox" name="DefaultP">Consider this as a default week 
+    <input type="submit"></div>';
+        }
         return $contents;
     }
 

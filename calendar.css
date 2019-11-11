@@ -65,7 +65,10 @@ div#calendar ul.dates {
 }
 
 
-
+div.underNav {
+    grid-column: 7/7;
+    width: 100%;
+}
 div#calendar ul.label{
 
     margin: 0px;

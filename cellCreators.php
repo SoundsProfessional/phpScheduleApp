@@ -2,27 +2,7 @@
 //<!--Connor Was Here-->
 include_once('dbTdFuncs.php');
 
-class minimalCellCreator2 //this is the name that will be called from the calendarContainer's show function
-{
-//this is only a prototype, all cell creators will now have a week and month dimension.
-//the payload will be defined at the caller of the calenderiter class
-//and passed anonymously through calenderiter's show function
 
-    public function show($time, $payload, $wastedArgument)
-    {
-        if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
-            return "<li class='calendIterCell'><a href="
-                . $payload .
-
-                ">PrototypeMonthCell<br/>Needs to be replaced!"
-                . date('d', $time) . "</a></li>";
-        } else { //WEEK VIEW
-            $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
-            $content .= "'>prototypeWeekCell" . date('S, d', $time) . " time/realtime " . $time . "==" . time() . "</li>";
-            return $content;
-        }
-    }
-}
 
 
 class schedCellCreator
@@ -37,19 +17,65 @@ class schedCellCreator
             return "<li class='calendIterCell'><a href="
                 . $payload .
 
-                "><h3>Q/Q/Q</h3>";
+                "><h3>Q/Q/Q<br/>" . SQLfmtDate($time) . "</h3>";
+
         } else { //WEEK VIEW
+//
             $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
             $content .= "'><div>"
-                . date('d', $time) . "</div>
-<div>" . getListofAvailableEmp(getLastMonday($time), $time) . "</div>
+                //TOP FIELD CREATOR
+                //CHECK BOXES GENERATED FOR EACH SCHEDULED PERSON
+                . $this->createTopCell($time) . "</div>
+<div>" .
+                //BOTTOM CELL CREATOR
+                $this->createBottomCell($time) . "</div>
 </a></li>";
             return $content;
+        }
+    }
+
+
+    private function createBottomCell($time)
+    {
+        $content = '<form method="post" action="indexB.php">';
+        $result = getAssociativeOfAvailableEmployees(getLastMonday($time), $time);
+
+
+//This creates a whole insert statement for the checkbox
+        for ($i = 0; $i < $result->num_rows; $i++) {
+            $componentQuery = "insert into explicitListDayEmp" .
+                " (bizname, empname, date, dayIncr, isDefault) values ('"
+                . $_SESSION['bizName'] . "', '";
+
+            $row = $result->fetch_assoc();
+            $componentQuery .= $row['name'] . "', '" . SQLfmtDate(getLastMonday(intval($time)));
+            $componentQuery .= "', '`" . date("N", $time) . "`', 0);";
+
+            $content .= "<input type='checkbox' name='worker' value='" . $componentQuery;
+            $content .= "'>" . $row['name'] . "<br/>";
+
 
         }
+        return $content;
 
     }
+
+    private function createTopCell($time)
+    {
+        return date('d', $time);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 class requirementsCellCreator
 {
@@ -63,13 +89,13 @@ class requirementsCellCreator
             return "<li class='calendIterCell'><a href="
                 . $payload . "&currT=" . $time .
 
-                ">" . getDayAvail($sunDate, $_SESSION['currT']) . "<br/>"
+                ">" . getDayAvail($sunDate, $_GET['currT']) . "<br/>" //changed 11/9
                 . date('d', $time) . "</a></li>";
         } else { //WEEK VIEW
             $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
             $content .= "'>";
 
-            $content .= getDayAvail($sunDate, $_SESSION['currT']) .
+            $content .= getDayAvail($sunDate, $_GET['currT']) .
                 "<BR/>" . date('d', $time) . " <input type='checkbox' name='" . date('N', $time) . "'>
                 <input type='hidden' name='sunDateMirror' value='" . $sunDate . "'>
                 <input type='hidden' name='sunDate' value='" . $sunDate . "'>
@@ -112,7 +138,7 @@ class availCellCreator
             $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
             $content .= "'>";
 
-            $content .= getDayAvail($sunDate, $_SESSION['currT']) .
+            $content .= getDayAvail($sunDate, $_GET['currT']) .
                 "<BR/>" . date('d', $time) . " <input type='checkbox' name='" . date('N', $time) . "'>
                 <input type='hidden' name='sunDateMirror' value='".$sunDate."'>
                 <input type='hidden' name='sunDate' value='".$sunDate."'>
@@ -150,6 +176,27 @@ class sharedSchedEmpCellCreator
     }
 }
 
+class minimalCellCreator2 //this is the name that will be called from the calendarContainer's show function
+{
+//this is only a prototype, all cell creators will now have a week and month dimension.
+//the payload will be defined at the caller of the calenderiter class
+//and passed anonymously through calenderiter's show function
+
+    public function show($time, $payload, $wastedArgument)
+    {
+        if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
+            return "<li class='calendIterCell'><a href="
+                . $payload .
+
+                ">PrototypeMonthCell<br/>Needs to be replaced!"
+                . date('d', $time) . "</a></li>";
+        } else { //WEEK VIEW
+            $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
+            $content .= "'>prototypeWeekCell" . date('S, d', $time) . " time/realtime " . $time . "==" . time() . "</li>";
+            return $content;
+        }
+    }
+}
 
 //class minimalCellCreator
 //{

@@ -3,6 +3,17 @@
 
 <?php
 
+
+function submitString($query)
+{
+    $connec = getConnection();
+    if (!mysqli_query($connec, $query)) {
+        echo("Error description: " . mysqli_error($connec));
+    }
+
+
+}
+
 class scheduleSubmission
 {
 //    Initializes and generates the string to schedule a whole week
@@ -36,7 +47,7 @@ or
     return $row1['c'];
 }
 
-function getListofAvailableEmp($monDate, $currT)
+function getAssociativeOfAvailableEmployees($monDate, $currT)
 {
     $dayIncr = date('N', intval($currT));
     $monDate = SQLfmtDate($monDate);
@@ -47,20 +58,13 @@ function getListofAvailableEmp($monDate, $currT)
 
     $db=getConnection();
     $result = $db->query($query) or die ("gettingListofAvailableEmployees failed");
-    $content = $result->num_rows . ' Available:<br/>';
 
     if(!$result) {
         echo "Cannot run query.";
         exit;
     }
 
-    for ($i = 0; $i < $result->num_rows; $i++) {
-        $row = $result->fetch_assoc();
-        $content .= $row['name'] . "<br/>";
-    }
-
-
-    return $content;
+    return $result;
 }
 
 function SQLfmtDate($time){
