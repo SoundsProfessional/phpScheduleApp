@@ -18,6 +18,20 @@ class schedCellCreator
     {
         if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
 
+            $content = "<li class='calendIterCell'><a href="
+                . $payload . "&currT=" . $time . " >";
+            $content .= '<b>' . SQLfmtDate($time) . '</b><br/>';
+
+            $result = getAssociativeOfScheduledEmployees(getLastMonday($time), $time);
+            for ($i = 0; $i < $result->num_rows; $i++) {
+                $row = $result->fetch_assoc();
+
+                $content .= $row['empName'] . "<BR/>";
+
+            }
+            $content .= "</a></li>";
+            return $content;
+
             return "<li class='calendIterCell'><a href="
                 . $payload . "&currT=" . $time .
                 "><h3>Q/Q/Q<br/>" . SQLfmtDate($time) . "</h3>";
@@ -66,45 +80,20 @@ class schedCellCreator
 
     private function createTopCell($time)
     {
-        return date('d', $time);
-    }
-}
-
-
-//DISUSED
-class requirementsCellCreator
-{
-//this is only a prototype, all cell creators will now have a week and month dimension.
-//the payload will be defined at the caller of the calenderiter class
-//and passed anonymously through calenderiter's show function
-    public function show($time, $payload, $wastedArgument)
-    {
-        $sunDate = getLastMonday($time);
-        if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
-            return "<li class='calendIterCell'><a href="
-                . $payload . "&currT=" . $time .
-
-                ">" //. getDayAvail($sunDate, $_GET['currT'])
-                . "<br/>" //changed 11/9
-                . date('d', $time) . "</a></li>";
-        } else { //WEEK VIEW
-            $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
-            $content .= "'>";
-
-            $content .= //getDayAvail($sunDate, $_GET['currT']) .
-                "<BR/>" . date('d', $time) . " <input type='checkbox' name='" . date('N', $time) . "'>
-                <input type='hidden' name='sunDateMirror' value='" . $sunDate . "'>
-                <input type='hidden' name='sunDate' value='" . $sunDate . "'>
-                </li>";
-            return $content;
-
-
-            return $content;
+//        SELECT EMPNAME FROM explicitListDayEmp
+//WHERE BIZNAME='OnlyOneEmployee' and dayIncr='`1`' =1 and mondate = '2019-10-27';
+        $content = '';
+        $result = getAssociativeOfScheduledEmployees(getLastMonday($time), $time);
+        for ($i = 0; $i < $result->num_rows; $i++) {
+            $row = $result->fetch_assoc();
+            $content .= $row['empName'] . "<BR/>";
 
         }
 
+        return $content;
     }
 }
+
 
 class availCellCreator
 {
@@ -197,5 +186,40 @@ class minimalCellCreator2 //this is the name that will be called from the calend
     }
 }
 
+
+//DISUSED
+class requirementsCellCreator
+{
+//this is only a prototype, all cell creators will now have a week and month dimension.
+//the payload will be defined at the caller of the calenderiter class
+//and passed anonymously through calenderiter's show function
+    public function show($time, $payload, $wastedArgument)
+    {
+        $sunDate = getLastMonday($time);
+        if ($_GET['weekOrMonth'] != 'week') { //MONTH VIEW
+            return "<li class='calendIterCell'><a href="
+                . $payload . "&currT=" . $time .
+
+                ">" //. getDayAvail($sunDate, $_GET['currT'])
+                . "<br/>" //changed 11/9
+                . date('d', $time) . "</a></li>";
+        } else { //WEEK VIEW
+            $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
+            $content .= "'>";
+
+            $content .= //getDayAvail($sunDate, $_GET['currT']) .
+                "<BR/>" . date('d', $time) . " <input type='checkbox' name='" . date('N', $time) . "'>
+                <input type='hidden' name='sunDateMirror' value='" . $sunDate . "'>
+                <input type='hidden' name='sunDate' value='" . $sunDate . "'>
+                </li>";
+            return $content;
+
+
+            return $content;
+
+        }
+
+    }
+}
 
 ?>

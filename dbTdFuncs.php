@@ -109,6 +109,35 @@ function getAssociativeOfAvailableEmployees($monDate, $currT)
     return $result;
 }
 
+
+function getAssociativeOfScheduledEmployees($monDate, $currT)
+{
+    $dayIncr = date('N', intval($currT));
+    $monDate = SQLfmtDate($monDate);
+
+//    $query = "select name from availability  where bizName = '" . $_SESSION['bizName'] . "' and date = '" . $monDate . "' or bizName = '" . $_SESSION['bizName'] . "' and `is` = 0 and `" . $dayIncr . "` = 1
+//    union
+//    (select name from availability where bizName = '" . $_SESSION['bizName'] . "' and date <= '" . $monDate . "' and `IS` = 1 and `" . $dayIncr . "` = 1 group by date limit 1 )";
+
+    $query = "select * from explicitListDayEmp
+    where bizName='" . $_SESSION['bizName'] . "' and (monDate='" . $monDate . "' and isDefault=0 and dayIncr = '`" . $dayIncr . "`')
+    union
+    (select * from explicitListDayEmp where bizName='" . $_SESSION['bizName'] . "' and monDate <= '" . $monDate . "' and isDefault=1 and dayIncr = '`" . $dayIncr . "`' group by monDate limit 1 );";
+
+
+    $db = getConnection();
+    $result = $db->query($query) or die ("gettingListofAvailableEmployees failed");
+
+    if (!$result) {
+        echo "Cannot run query.";
+        exit;
+    }
+
+    return $result;
+}
+
+
+
 function SQLfmtDate($time){
     $time=intval($time);
 
