@@ -25,8 +25,8 @@ echo "<p>A nice resource for regexp is <a href='https://www.rexegg.com/regex-qui
 echo '<p>This whole functionality works on catching POST variables from the other pages and deciding what to do next. </p>';
 echo '<p></p></div>';
 
-//    [^a-z]
 
+//THE USER IS ENTERING FROM CHANGING THEIR AVAILABILITY
 if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
     $_POST['sunDate'] = $_POST['sunDateMirror'];
 
@@ -35,7 +35,7 @@ if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
     $queryPostfix = " on duplicate key update "; //`is`=
     //$queryPostfix is for the condition where there is already an entry in the table
     //examine the SQL scratch pad in Documentation to see the underlying sql.
-    $queryMidFix = ""; //THIS IS JUST SOME ONES
+    $justOnes = ""; //THIS IS JUST SOME ONES
 
     $numDayTrue = preg_grep('/^\d{1, 2}$/', $_POST, true);
 //    $whichAreOn =   preg_grep ( '/on/', array_values($_POST), true);
@@ -44,12 +44,12 @@ if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
         //echo $_POST[$k]. " -- ".$k ."--".$v.'<br/>';
         if ($_POST[$k] == 'on' && $k != 'DefaultP') {
             echo "make a thing for " . $k;
-            $queryMidFix .= ", 1";
+            $justOnes .= ", 1";
             $queryPrefix .= '`, `' . $k;           //put in the field, ending quote for the previous and leading quote for itself
             $queryPostfix .= '`' . $k . "`=1,";   //closing quote for the previous one, the field name,
         }
     }
-    //$queryPostfix= rtrim($queryPostfix, ","); //dropping the last comma from the numeric fields
+
     $queryPostfix .="`is`="; //`is` is the last field we add for the update conditon
 
     //this block is the midfix, it builds the values out to the right
@@ -76,11 +76,13 @@ if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
 
 
     echo 'I intend to post the following: <br/>'.$queryPrefix.$queryPostfix.'<br/>';
-    submitString($queryPrefix . $queryMidFix . ")" . $queryPostfix);
+    submitString($queryPrefix . $justOnes . ")" . $queryPostfix);
 //    insert into availability (`name`, `date`, `is`, `1`) VALUES ('Connor', '2019-04-11', 1, 1);
 
     }
 
+
+//THE USER IS ENTERING FROM CREATE_ACCOUNT
 
 
 if (preg_grep ( '/empName/', array_keys($_POST))) {

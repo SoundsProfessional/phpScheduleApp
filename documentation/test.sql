@@ -1,11 +1,9 @@
-# <!--Connor Was Here-->
-
 -- phpMyAdmin SQL Dump
 -- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 02, 2019 at 02:25 AM
+-- Generation Time: Nov 12, 2019 at 02:35 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -41,8 +39,19 @@ CREATE TABLE `availability` (
   `4` tinyint(4) DEFAULT 0,
   `5` tinyint(4) DEFAULT 0,
   `6` tinyint(4) DEFAULT 0,
-  `isDefault` tinyint(1) DEFAULT 0
+  `bizName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `availability`
+--
+
+INSERT INTO `availability` (`Name`, `Date`, `is`, `7`, `1`, `2`, `3`, `4`, `5`, `6`, `bizName`) VALUES
+('HanSolo', '2019-09-01', 0, 0, 0, 0, 0, 0, 0, 0, 'OnlyOneEmployee'),
+('HanSolo', '2019-10-27', 0, 1, 1, 1, 1, 0, 0, 0, 'OnlyOneEmployee'),
+('HanSolo', '2019-11-03', 0, 1, 1, 1, 1, 0, 0, 0, 'OnlyOneEmployee'),
+('HanSolo', '2019-11-10', 0, 1, 1, 1, 1, 1, 1, 1, 'OnlyOneEmployee'),
+('HanSolo', '2019-12-22', 0, 0, 0, 0, 1, 0, 0, 0, 'OnlyOneEmployee');
 
 -- --------------------------------------------------------
 
@@ -54,6 +63,22 @@ CREATE TABLE `biz_account` (
   `Name` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `biz_account`
+--
+
+INSERT INTO `biz_account` (`Name`, `Password`) VALUES
+('', ''),
+('awefas', 'waefa'),
+('december', 'x'),
+('JustOneEmployee', 'password'),
+('november', '8'),
+('OnlyOneEmployee', 'password'),
+('secretKitchen', 'asdf'),
+('singleWorker', 'password'),
+('wefwef', 'wefwef'),
+('xxx', 'xxx');
 
 -- --------------------------------------------------------
 
@@ -67,6 +92,64 @@ CREATE TABLE `employee_account` (
   `Password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `employee_account`
+--
+
+INSERT INTO `employee_account` (`bizName`, `Name`, `Password`) VALUES
+('november', '123', '123'),
+('november', 'AlwaysAvail', 'd'),
+('november', 'asdf', '3we'),
+('november', 'asdfaw', 'gaa'),
+('november', 'bananas', 'dsdf'),
+('november', 'bob', '234'),
+('november', 'Connor', '123'),
+('december', 'explodrix', 'sdfa'),
+('OnlyOneEmployee', 'HanSolo', 'password'),
+('november', 'sundaysam', 'sdf'),
+('november', 'testolio', 'asdf'),
+('november', 'testts', 'awers'),
+('november', 'trew', 'trew'),
+('november', 'tuesdays', 's'),
+('december', 'tuyg', 'd'),
+('november', 'weekendMan', 'x');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `explicitListDayEmp`
+--
+
+CREATE TABLE `explicitListDayEmp` (
+  `bizName` varchar(100) NOT NULL,
+  `empName` varchar(100) NOT NULL,
+  `monDate` date NOT NULL,
+  `isDefault` tinyint(1) NOT NULL,
+  `dayIncr` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `explicitListDayEmp`
+--
+
+INSERT INTO `explicitListDayEmp` (`bizName`, `empName`, `monDate`, `isDefault`, `dayIncr`) VALUES
+('november', 'weekendMan', '2019-11-13', 0, '`3`'),
+('november', 'tuyg', '2019-11-14', 0, '`4`'),
+('november', 'Connor', '2019-11-10', 1, '`7`'),
+('november', 'weekendMan', '2019-11-10', 1, '`1`'),
+('november', 'tuyg', '2019-10-27', 0, '`7`'),
+('november', 'weekendMan', '2019-10-27', 0, '`1`'),
+('november', 'weekendMan', '2019-10-27', 0, '`2`'),
+('november', 'weekendMan', '2019-10-27', 0, '`3`'),
+('november', 'tuyg', '2019-10-27', 0, '`4`'),
+('november', 'tuyg', '2019-10-27', 0, '`5`'),
+('november', 'tuyg', '2019-10-27', 0, '`6`'),
+('OnlyOneEmployee', 'HanSolo', '2019-10-27', 0, '`7`'),
+('OnlyOneEmployee', 'HanSolo', '2019-10-27', 0, '`1`'),
+('OnlyOneEmployee', 'HanSolo', '2019-03-10', 0, '`2`'),
+('OnlyOneEmployee', 'HanSolo', '2019-09-29', 0, '`3`'),
+('OnlyOneEmployee', 'HanSolo', '2019-10-20', 1, '`6`');
+
 -- --------------------------------------------------------
 
 --
@@ -76,15 +159,15 @@ CREATE TABLE `employee_account` (
 CREATE TABLE `explicitSchedule` (
   `bizName` varchar(100) NOT NULL,
   `monDate` date NOT NULL,
-  `7` tinyint(4) DEFAULT NULL,
-  `1` tinyint(4) DEFAULT NULL,
-  `2` tinyint(4) DEFAULT NULL,
-  `3` tinyint(4) DEFAULT NULL,
-  `4` tinyint(4) DEFAULT NULL,
-  `5` tinyint(4) DEFAULT NULL,
-  `6` tinyint(4) DEFAULT NULL,
   `isDefault` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `explicitSchedule`
+--
+
+INSERT INTO `explicitSchedule` (`bizName`, `monDate`, `isDefault`) VALUES
+('november', '2019-11-03', 0);
 
 -- --------------------------------------------------------
 
@@ -130,6 +213,13 @@ ALTER TABLE `employee_account`
   ADD KEY `bizName` (`bizName`);
 
 --
+-- Indexes for table `explicitListDayEmp`
+--
+ALTER TABLE `explicitListDayEmp`
+  ADD KEY `bizName` (`bizName`),
+  ADD KEY `empName` (`empName`);
+
+--
 -- Indexes for table `explicitSchedule`
 --
 ALTER TABLE `explicitSchedule`
@@ -158,6 +248,13 @@ ALTER TABLE `availability`
 --
 ALTER TABLE `employee_account`
   ADD CONSTRAINT `employee_account_ibfk_1` FOREIGN KEY (`bizName`) REFERENCES `biz_account` (`Name`) ON DELETE NO ACTION;
+
+--
+-- Constraints for table `explicitListDayEmp`
+--
+ALTER TABLE `explicitListDayEmp`
+  ADD CONSTRAINT `explicitListDayEmp_ibfk_1` FOREIGN KEY (`bizName`) REFERENCES `biz_account` (`Name`),
+  ADD CONSTRAINT `explicitListDayEmp_ibfk_2` FOREIGN KEY (`empName`) REFERENCES `employee_account` (`Name`);
 
 --
 -- Constraints for table `explicitSchedule`

@@ -1,11 +1,21 @@
--- # this file is SQL scratch, it will help me keep track of my sql while its still readable.
+
+
+# get the names of the people scheduled today
+select * from explicitListDayEmp
+where bizName='OnlyOneEmployee' and (monDate='2018-11-03' and isDefault=0 and dayIncr = '`1`')
+union
+(select * from explicitListDayEmp where bizName='OnlyOneEmployee' and monDate <= '2018-11-10' and isDefault=1 and dayIncr = '`1`' group by monDate limit 1 );
+
+
+
+# this file is SQL scratch, it will help me keep track of my sql while its still readable.
 
 
 #Creating a relation to insert into the explicitSchedule
-insert into explicitListDayEmp (bizname, empname, date, dayIncr) values ('november', 'tuyg', '2019-11-03', '`1`');
+insert into explicitListDayEmp (bizname, empname, monDate, dayIncr, isDefault) values ('november', 'tuyg', '2019-11-03', '`7`', 1);
 
 # initializing for an explicit scheduled day
-delete from explicitListDayEmp where bizName = 'november' and date = '2019-11-03';
+delete from explicitListDayEmp where bizName = 'november' and mondate = '2019-11-03';
 
 #Employee account insertion that fails quietly. If you attempt to use an existing login for account creation, it just grants you that name for the session
 # you are in.
@@ -60,10 +70,6 @@ select * from availability;
 INSERT INTO explicitSchedule (bizName, monDate, `is`)values ('november', '2019-11-03', 0);
 
 
-
-
-
-
 #SET TRUE PERSON AVAILABLE
 
 
@@ -88,10 +94,3 @@ where
 END;
 
 
-
-# WHEN `7` = '1' THEN '7'
-# WHEN `2` = '1' THEN '2'
-#         WHEN `3` = '1' THEN '3'
-#         WHEN `4` = '1' THEN '4'
-#         WHEN `5` = '1' THEN '5'
-#         WHEN `6` = '1' THEN '6'
