@@ -10,7 +10,6 @@ function tail()
     }
 }
 
-// echo tail(); ?>">
 
 ?>
 

@@ -7,7 +7,7 @@ require('../header.php');
 require('reusable/bizNav.php');
 
 include('../calendarContainer.php');
-
+echo "there's nothing developed here, yet. The calendar below is JUNK, just delete it.";
 
 $monthb = new CalendarContainer('month');
 

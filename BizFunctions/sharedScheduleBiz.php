@@ -1,8 +1,8 @@
-<!--Placeholder-->
-<!--Connor Ireland-->
-
-<!--Connor Was Here-->
 <?php
+if (session_status() == PHP_SESSION_NONE || session_id() == '') {
+    session_start();
+}
+//<!--Connor Was Here-->
 
 require('../header.php');
 require('reusable/bizNav.php');
@@ -15,16 +15,13 @@ $monthsc = new CalendarContainer('month');
 
 //the nature of the payload will change with the cellcreator and be inserted into it later
 //I hate sending this in with a string.
+echo "<form method='post' action='indexB.php'>";
 echo $monthsc->show(htmlentities($_SERVER['PHP_SELF']), 'schedCellCreator');
+
+echo "</form>";
 
 require('../footer.php');
 ?>
 
-$makeMonth = new MakeMonth('scheduleBuilder.php',
-    new SchedCellCreatorMonthBiz);
-//the cell creator above is what distinguishes the different month views in the process
-//API or other DB functions will be affected by the cellCreator in play.
-echo $makeMonth->show();
 
-require('../footer.php');
 

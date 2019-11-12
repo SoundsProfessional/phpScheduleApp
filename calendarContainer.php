@@ -41,7 +41,7 @@ class CalendarContainer
         <div class="clear"></div><ul class="dates">
 
             ' . '' . $callnIt->show($pay, $func) . '
-    </ul><div class="clear"></div></div></div>';
+    <div class="clear"></div></div></div>';
     }
 
 
@@ -56,7 +56,7 @@ class CalendarContainer
                 . $_GET['naviHref'] . '?currT=' . $prev . '&weekOrMonth=month">back to ' . date('M', $prev) . '</a><span class=title>' .
                 date("M,Y", $working) . '</span>
 <a class="next" href="'
-                . $_GET['naviHref'] . '?currT=' . $next . '&weekOrMonth=month">Next</a> </div>';
+                . $_GET['naviHref'] . '?currT=' . $next . '&weekOrMonth=month">' . SQLfmtDate($next) . '</a> </div>';
         } else {
 
             return '<div class="header">' .
