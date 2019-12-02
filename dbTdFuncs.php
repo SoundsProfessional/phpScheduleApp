@@ -17,8 +17,9 @@ function submitString($query)
 
 }
 
+
 class scheduleSubmission
-{
+{ //I GUESS YOU COULD CALL THIS A REPOSITORY TO MANAGE THE INITIALIZATION AND UPDATE OF A SCHEDULED WEEK
 //    Initializes and generates the string to schedule a whole week
     private static $instance = null;
 
@@ -60,6 +61,18 @@ class scheduleSubmission
 }
 
 
+function getRequestQueue()
+{
+    $query = "SELECT * FROM `messageEntry` WHERE bizName = '" . $_SESSION['bizName'] . "' order by date";
+    $db = getConnection();
+    $result = $db->query($query) or die ("getting your queue failed");
+    $return = "";
+    foreach ($result as $w => $k) {
+        $return .= $k['date'] . " -- " . $k['emplName'] . "<br/>" . $k['message'] . "<br/><br/>";
+    }
+    return $return;
+}
+
 function getVariableDump()
 {
     return '
@@ -72,11 +85,16 @@ function getVariableDump()
 //get Days Availability
 function getDayAvail($monDate, $currT){ //This returns TRUE or FALSE if EMP is available this day.
 
-    $query = "select count(*) as c from
-    (select * from availability where bizName = '" . $_SESSION['bizName'] . "' and `Name` = '" . $_SESSION['empName'] . "' and `" . date('N', $currT) . "`=1) as a
-where (a.`is` = 1 and a.date <= '".date('Y-m-d',$monDate)."')
-or
-(date = '".date('Y-m-d',$monDate)."' )";
+    //DEFAULT IS CLEARLY NOT SETTING CORRECTLY
+
+    $query = "select (select count(*) from availability where bizName = '" . $_SESSION['bizName'] . "' and `Name` = '" . $_SESSION['empName'] . "' and `" . date('N', $currT) . "`=1
+    and `is` = 1 and date <= '" . date('Y-m-d', $monDate) . "')
+    +
+    (select count(*) from availability where bizName = '" . $_SESSION['bizName'] . "' and `Name` = '" . $_SESSION['empName'] . "' and `" . date('N', $currT) . "`=1
+    and date = '" . date('Y-m-d', $currT) . "')";
+
+
+    //echo date('N', $currT)."  ".$monDate.'<br/>';
     $db = getConnection();
     $result = $db->query($query) or die ("getting your specific availability failed");
     $num_results = $result->num_rows;
@@ -84,10 +102,23 @@ or
         echo "Cannot run query.";
         exit;
     }
+    $res = "";
     $row1 = $result->fetch_assoc();
+//    foreach ($row1 as $p){echo $p; $res .= $p;}
 //    echo "in getDatAvail".$query.'<br/>'.$row1['c']; //useful noise
-    return $row1['c'];
+    return $res == 0 ? 0 : 1;
 }
+
+//select name from availability where bizName = 'JustOneEmployee'
+//and date = '2019-10-27' or bizName = 'JustOneEmployee'
+//and `is` = 0 and `2` = 1
+// union
+// (select name from availability where bizName = 'JustOneEmployee'
+//and date <= '2019-10-27' and
+//`IS` = 1 and `2` = 1 group by date limit 1 )
+
+
+
 
 function getAssociativeOfAvailableEmployees($monDate, $currT)
 {
@@ -105,7 +136,7 @@ function getAssociativeOfAvailableEmployees($monDate, $currT)
         echo "Cannot run query.";
         exit;
     }
-
+    //echo "<br/>".$query."   <br/>";
     return $result;
 }
 
@@ -115,16 +146,12 @@ function getAssociativeOfScheduledEmployees($monDate, $currT)
     $dayIncr = date('N', intval($currT));
     $monDate = SQLfmtDate($monDate);
 
-//    $query = "select name from availability  where bizName = '" . $_SESSION['bizName'] . "' and date = '" . $monDate . "' or bizName = '" . $_SESSION['bizName'] . "' and `is` = 0 and `" . $dayIncr . "` = 1
-//    union
-//    (select name from availability where bizName = '" . $_SESSION['bizName'] . "' and date <= '" . $monDate . "' and `IS` = 1 and `" . $dayIncr . "` = 1 group by date limit 1 )";
-
-    $query = "select * from explicitListDayEmp
+    $query = "select empName from explicitListDayEmp
     where bizName='" . $_SESSION['bizName'] . "' and (monDate='" . $monDate . "' and isDefault=0 and dayIncr = '`" . $dayIncr . "`')
     union
-    (select * from explicitListDayEmp where bizName='" . $_SESSION['bizName'] . "' and monDate <= '" . $monDate . "' and isDefault=1 and dayIncr = '`" . $dayIncr . "`' group by monDate limit 1 );";
+    (select empName from explicitListDayEmp where bizName='" . $_SESSION['bizName'] . "' and monDate <= '" . $monDate . "' and isDefault=1 and dayIncr = '`" . $dayIncr . "`' group by monDate);";
 
-
+    //echo "<br/>".$query."   <br/>";
     $db = getConnection();
     $result = $db->query($query) or die ("gettingListofAvailableEmployees failed");
 
@@ -132,6 +159,13 @@ function getAssociativeOfScheduledEmployees($monDate, $currT)
         echo "Cannot run query.";
         exit;
     }
+
+//    foreach($result as $x=>$y){
+//        echo $dayIncr."  ".$y['empName']."  ";
+//        foreach($y as $w=>$e) {
+//            echo $w." INSIDE GETSCHED ".$e;
+//        }
+//    }
 
     return $result;
 }

@@ -51,6 +51,20 @@ if (preg_grep('/worker/', array_keys($_POST))) {
     $submission->execute();
 }
 
+if (preg_grep('/note/', array_keys($_POST))) {
+    $notice = "0";
+    if (!empty($_POST['notice'])) {
+        $notice = $_POST['notice'];
+    }
+
+    echo "setting the notice: " . $_POST['notice'] . " weeks";
+    $query = "update biz_account set Notice = " . $_POST['notice'] . " where Name = '" . $_SESSION['bizName'] . "'";
+    $conn = getConnection();
+    echo $query;
+    $conn->query($query);
+
+}
+
 
 
 if (preg_grep('/bizName/', array_keys($_POST))) {

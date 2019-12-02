@@ -15,16 +15,16 @@ function tail()
 
 <table width="100%" bgcolor="white" cellpadding="4" cellspacing="4">
     <tr>
-        <td width="25%">
+        <td width="33%">
             <span class="menu"><a href="indexB.php<?php echo tail(); ?>">Home</a></span>
         </td>
-        <td width="25%">
-            <span class="menu"><a href="requirementsMonth.php<?php echo tail(); ?>">Staffing Needs</a></span>
+        <td width="0">
+            <span class="menu"><a href="requirementsMonth.php<?php echo tail(); ?>">Required Notice</a></span>
         </td>
-        <td width="25%">
+        <td width="33%">
             <span class="menu"><a href="sharedScheduleBiz.php<?php echo tail(); ?>">Shared Schedule</a></span>
         </td>
-        <td width="25%">
+        <td width="33%">
             <span class="menu"><a href="requestQueue.php<?php echo tail(); ?>">Pending Requests Off</span>
         </td>
     </tr>
