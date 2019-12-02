@@ -59,10 +59,12 @@ if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
         . "', '" . $_SESSION['bizName'] . "',";  //the above is for the insert values, date and name fields
 
     if(isset($_POST['DefaultP'])) { //does the IS key
-        if ($_POST['DefaultP'] != 0) {
+        if ($_POST['DefaultP'] == 'on') {
+            echo 'ISdEFAULT WAS SET';
             $queryPrefix .= '1'; //for the insert condition
             $queryPostfix .= '1'; //for the update condition
         } else {
+            echo 'ISdEFAULT not SET';
             $queryPrefix .= '0';
             $queryPostfix .= '0';
         }
@@ -75,7 +77,7 @@ if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
         //this is the value that is always added to numeric fields
 
 
-    echo 'I intend to post the following: <br/>'.$queryPrefix.$queryPostfix.'<br/>';
+    echo 'I intend to post the following: <br/>' . $queryPrefix . $justOnes . ")" . $queryPostfix . '<br/>';
     submitString($queryPrefix . $justOnes . ")" . $queryPostfix);
 //    insert into availability (`name`, `date`, `is`, `1`) VALUES ('Connor', '2019-04-11', 1, 1);
 
@@ -96,7 +98,12 @@ if (preg_grep ( '/empName/', array_keys($_POST))) {
     submitString($query);
 //    $db->query($query) or die('<br/>BUT I FAILED .. probably a duplicate name.');
 }
+if (preg_grep('/requestField/', array_keys($_POST))) {
+    echo "'" . $_POST['requestField'] . "' is being submitted to the MGR";
+    $query = "insert into messageEntry (message, date, emplName, bizName) VALUES ('" . $_POST['requestField'] . "', '" . SQLfmtDate(time()) . "', '" . $_SESSION['empName'] . "', '" . $_SESSION['bizName'] . "')";
+    submitString($query);
 
+}
 
 ?>
 

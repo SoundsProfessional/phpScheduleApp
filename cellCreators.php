@@ -23,6 +23,9 @@ class schedCellCreator
             $content .= '<b>' . SQLfmtDate($time) . '</b><br/>';
 
             $result = getAssociativeOfScheduledEmployees(getLastMonday($time), $time);
+//*************
+//            foreach ($result as $x=>$y){foreach($y as $u){    echo $u." ";    }}
+//            *************
             for ($i = 0; $i < $result->num_rows; $i++) {
                 $row = $result->fetch_assoc();
 
@@ -55,9 +58,10 @@ class schedCellCreator
     {
         $submission = scheduleSubmission::getInstance($_SESSION['bizName'], getLastMonday($time));
 
-        $content = '';
+        $content = 'availableToSchedule<br/>';
         $result = getAssociativeOfAvailableEmployees(getLastMonday($time), $time);
-//        $deletionStatement = 'delete from explicitListDayEmp where bizName = '.$_SESSION['bizName'].' and mondate = '.getLastMonday($time).';';
+
+        //        $deletionStatement = 'delete from explicitListDayEmp where bizName = '.$_SESSION['bizName'].' and mondate = '.getLastMonday($time).';';
 //        $submission->append($deletionStatement);
 //This creates a whole insert statement for the checkbox
         for ($i = 0; $i < $result->num_rows; $i++) {
@@ -66,12 +70,19 @@ class schedCellCreator
 //
 //            $singleInsertStatement .= "('".$_SESSION['bizName'] . "', '";
             $row = $result->fetch_assoc();
+//            foreach ($row as $x => $y){
+//                echo $x , "  ", $y;
+//            }
+
+
 
 
             //$submission->append($singleInsertStatement); I need to do this later, on the next page.
 
-            $content .= "<input type='checkbox' name='" . $time . "' value='" . $row['name'] . "'";
-            $content .= "'>   <input type='hidden' name='worker' value='True'> " . $row['name'] . "<br/>";
+            $content .= "<input type='checkbox' name='" . $time . "' value='" .
+                $row['name'] . "'";
+            $content .= "'>   <input type='hidden' name='worker' value='True'> " .
+                $row['name'] . "<br/>";
         }
 
         return $content;
@@ -82,8 +93,16 @@ class schedCellCreator
     {
 //        SELECT EMPNAME FROM explicitListDayEmp
 //WHERE BIZNAME='OnlyOneEmployee' and dayIncr='`1`' =1 and mondate = '2019-10-27';
-        $content = '';
+        $content = 'Curr(' . SQLfmtDate($time) . ')<br/>';
         $result = getAssociativeOfScheduledEmployees(getLastMonday($time), $time);
+        //    echo 'bang!';
+        foreach ($result as $x => $y) {
+            $content .= $y['empName'] . "<br/>";
+//            echo "inTopSSC  ".$y['empName']."  ";
+//            foreach($y as $w=>$e) {
+//                //    echo $w." INSIDE GETSCHED ".$e;
+//            }
+        }
         for ($i = 0; $i < $result->num_rows; $i++) {
             $row = $result->fetch_assoc();
             $content .= $row['empName'] . "<BR/>";
@@ -121,7 +140,7 @@ class availCellCreator
             $content = "<li class='calendIterCell"; //see that it lacks an inner close quote
             $content .= "'>";
 
-            $content .= getDayAvail($sunDate, $_GET['currT']) .
+            $content .= getDayAvail($sunDate, $time) .
                 "<BR/>" . date('d', $time) . " 
                 <input type='checkbox' name='" . date('N', $time) . "'>
                 
