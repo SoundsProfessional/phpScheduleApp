@@ -4,17 +4,12 @@ include('calendarIter.php');
 
 //include('cellCreators.php');
 
+//CALENDAR CONTAINER WORKS IN A PARTICULAR WAY
+//IT TAKES AN ARG, IF THE ARG IS 'WEEK' IT WILL STOP AT SUNDAY
+// OTHERWISE IT WILL STOP AT SUNDAY IF THAT DAY IS THE FIRST OF THE MONTH OR THE FALLS WITHIN THE PREVIOUS MONTH
+//THUSLY, IT DETERMINES WHEN IT WILL STOP CREATING NEW DAYS FOR THE VIEW.
 
 class CalendarContainer
-//Some hard consideration for the question of the currT construct
-//when you click down to the week the currT will change to the cell you clicked on
-//but will that cast a red box and suggest to the world that this is the actual current time
-//
-//so the solution is another global variable called realTime
-//that is the actual current time, the red box will draw based on realtime
-//but the reference variable will be currT
-//Also every time I say 'time' i just mean date, there is no concept of time in this app
-
 
 {
     private $weekOrMonth = 'NOT_INITIALIZED';
@@ -67,9 +62,7 @@ class CalendarContainer
         }
     }
 
-    /**
-     * create calendar week labels
-     */
+
     private function _createLabels()
     {
         $content = '';

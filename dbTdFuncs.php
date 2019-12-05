@@ -6,21 +6,27 @@ if (session_status() == PHP_SESSION_NONE || session_id() == '') {
 //<!--BOTH DATABASE AND TIMEDATE FUNCTIONS ARE HERE-->
 
 
+//YOU MAY NOTE THAT SOME OF THESE FUNCTION AND VARIABLE NAMES ARE EXCESSIVELY LONG. THIS IS INTENTIONAL!
+//THE CONVENTIONAL WISDOM IS THAT LONG NAMES ARE MORE PRONE TO ERRORS, WHICH IS REASONABLE
+//BUT MOST PEOPLE USE ideS TODAY, OR COPY AND PASTE, OR WHATEVER, AND ARE NOT NECESSARILY USING THE KEYBOARD
+//A VERY LONG NAME PRECLUDES PEOPLE EVEN TRYING TO TYPE IT, THUS AVOIDING ALL ERRORS
+//BY THIS LOGIC, THE PERFECT FUNCTION NAME WOULD BE thisFunctinName120954712 BECAUSE NOBODY WOULD PRESUME TO REMEMBER IT!!
+
 function submitString($query)
-{
+{ //THIS IS ONLY FOR PASSIVE SUBMISSIONS
+//IT DOESNT DO A RETURN VALUE
     $connec = getConnection();
     echo "<BR/>String Submission In Its Entirity<br/>" . $query . "<BR/>";
     if (!mysqli_multi_query($connec, $query)) {
         echo("Error description: " . mysqli_error($connec));
     }
-
-
 }
 
 
 class scheduleSubmission
 { //I GUESS YOU COULD CALL THIS A REPOSITORY TO MANAGE THE INITIALIZATION AND UPDATE OF A SCHEDULED WEEK
 //    Initializes and generates the string to schedule a whole week
+//SINCE WE DONT KNOW HOW MANY INSERTIONS WILL OCCUR, EXECUTION IS SEPARATE FROM APPENDAGE
     private static $instance = null;
 
     private function __construct($bizName, $monDate)
@@ -73,26 +79,17 @@ function getRequestQueue()
     return $return;
 }
 
-function getVariableDump()
-{
-    return '
-    </br>printing all arrays as a courtesy.
-    <br/>' . var_dump($_GET) .
-        "<br/>" . var_dump($_POST) .
-        "<br/>" . var_dump($_SESSION);
-}
-
 //get Days Availability
-function getDayAvail($monDate, $currT){ //This returns TRUE or FALSE if EMP is available this day.
-
-    //DEFAULT IS CLEARLY NOT SETTING CORRECTLY
-
+function getDayAvail($monDate, $currT)
+{ //This returns TRUE or FALSE if EMP is available this day.
+    //IT IS TOTALLY AWFUL
     $query = "select (select count(*) from availability where bizName = '" . $_SESSION['bizName'] . "' and `Name` = '" . $_SESSION['empName'] . "' and `" . date('N', $currT) . "`=1
     and `is` = 1 and date <= '" . date('Y-m-d', $monDate) . "')
     +
     (select count(*) from availability where bizName = '" . $_SESSION['bizName'] . "' and `Name` = '" . $_SESSION['empName'] . "' and `" . date('N', $currT) . "`=1
     and date = '" . date('Y-m-d', $currT) . "')";
 
+    //echo $query;
 
     //echo date('N', $currT)."  ".$monDate.'<br/>';
     $db = getConnection();
@@ -104,18 +101,11 @@ function getDayAvail($monDate, $currT){ //This returns TRUE or FALSE if EMP is a
     }
     $res = "";
     $row1 = $result->fetch_assoc();
-//    foreach ($row1 as $p){echo $p; $res .= $p;}
+    foreach ($row1 as $p){$res .= $p;}
 //    echo "in getDatAvail".$query.'<br/>'.$row1['c']; //useful noise
     return $res == 0 ? 0 : 1;
 }
 
-//select name from availability where bizName = 'JustOneEmployee'
-//and date = '2019-10-27' or bizName = 'JustOneEmployee'
-//and `is` = 0 and `2` = 1
-// union
-// (select name from availability where bizName = 'JustOneEmployee'
-//and date <= '2019-10-27' and
-//`IS` = 1 and `2` = 1 group by date limit 1 )
 
 
 
@@ -127,9 +117,10 @@ function getAssociativeOfAvailableEmployees($monDate, $currT)
 
     $query = "select name from availability  where bizName = '" . $_SESSION['bizName'] . "' and date = '" . $monDate . "' or bizName = '" . $_SESSION['bizName'] . "' and `is` = 0 and `" . $dayIncr . "` = 1
     union
-    (select name from availability where bizName = '" . $_SESSION['bizName'] . "' and date <= '" . $monDate . "' and `IS` = 1 and `" . $dayIncr . "` = 1 group by date limit 1 )";
+    (select name from availability where bizName = '" . $_SESSION['bizName'] . "' and date <= '" . $monDate . "' and `IS` = 1 and `" . $dayIncr . "` = 1 group by date)";
 
     $db=getConnection();
+    echo $query;
     $result = $db->query($query) or die ("gettingListofAvailableEmployees failed");
 
     if(!$result) {
@@ -172,27 +163,14 @@ function getAssociativeOfScheduledEmployees($monDate, $currT)
 
 
 
-function SQLfmtDate($time){
+function SQLfmtDate($time)
+{//WE USE THIS A LOT!!!
     $time=intval($time);
-
     return date('Y-m-d', $time);
-
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 function getConnection()
-{
+{ //WE USE THIS A LOT!
     $db = new mysqli('localhost', 'user', '', 'test');
     if (mysqli_connect_errno()) {
         echo 'Error: Could not connect to database.';
@@ -202,31 +180,29 @@ function getConnection()
     return $db;
 }
 
-function getLastMonday($date){
+function getLastMonday($date)
+{ //WE USE THIS A LOT!
     $date=intval($date);
-
     if(date("N",$date) == 7){
-
         return $date;
     }
     else{
-
         return date($date) - (86400 *  date("N",$date));
     }
-
 }
 
 
-function getProjectRoot(){ //I dont think this works
-    echo dirname(dirname("footer.php"));
-
+function getVariableDump()
+{  //THIS IS ONLY USED IN THE HEADER AND FOOTER FOR THE DEVELOPER.
+//IT WILL BE TOTALLY USELESS FOR PROD
+    return '
+    </br>printing all arrays as a courtesy.
+    <br/>' . var_dump($_GET) .
+        "<br/>" . var_dump($_POST) .
+        "<br/>" . var_dump($_SESSION);
 }
-
-
-
-
-
 
 
 
 ?>
+

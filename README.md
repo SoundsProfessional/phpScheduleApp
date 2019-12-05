@@ -1,6 +1,12 @@
 <!--Connor Was Here-->
 # phpScheduleApp
-<h3>Design Changes</h3>
+<h2>Further Development of This Project</h2>
+<p>There is no mechanism to enforce the 'notice' that the biz sets. This would be implemented mostly in SQL and is probably only 10 lines of code all together</p>
+<p>There is no validation for when a user creates a redundant account, it will just change that username's association to a biz (unless its a biz) and password</p>
+<p>We should collect email addresses, so that it is possible to verify a user and let them recover their account in the future. Currently there is just no way to do it with confidence.</p>
+<p>The CSS is absolute garbage, it can be 1/10th as long as it currently is.</p>
+
+<h3><small><small><small><small>the rest of this is old README, for the next developer to look at and get the hang of my thinking.<br/></small></small></small></small>Design Changes</h3>
 <p>Just as the notion of having a 'request off' functionality was redundant and pointless, requesting and displaying a projected requirement as anticipated by the MGR was silly and useless. This program should work just like a magic piece of paper and not have a bunch of functions that get in the way of its usefulness.</p>
 <p>So that's two big page things that we had planned which I am no longer planning to do. Depending on what James thinks represents a 'page' we might be coming up short. So getting the request message thing working would be cool.</p>
 
@@ -10,29 +16,7 @@
 <p>There is some 'helpful' output in the header and footer, don't let it freak you out.</p>
 <br>
 
-<h3>STUFF TO DO:</h3>
-<ul><li>
-Pull the new repository!
-</li>SQL work -- YES YOU MUST DO THIS OR NOTHING WILL WORK
-<ul><li>
-Locate the test.sql (its in /documentation/ of this project) <br/>
-</li><li>
-import the file to your instance of the database. You will have to delete whatever is in your 'test' database and all the schema
-</li>
-</ul>
-
-<li>
-Get logging in functionality working 
-</li><li>
-The the request process needs everything. requestQue needs a page, a databse construct, and a a page in makeRequest
-</li>
-
-</ul></li></ul>
-
-Please examine the class diagram, it's here in the repo.<br/><br/>
-<img src="phpClassDiagram.png" />
-
-
+There are simple diagrams in the /documentation/ folder, also the MOST RECENT sql DDL language is in there.<br/><br/>
 wireframes:
 
 https://wireframe.cc/uaR6wf<br/>

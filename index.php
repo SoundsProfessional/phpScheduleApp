@@ -8,7 +8,7 @@ require('reusable/noLogNav.php');
 
 <html>
 <body>
-<form method="post" action="index.php">
+<form method="post" action="authenticate.php">
     Username: <br/>
     <input type="text" name="username"><br/>
     Password: <br/>

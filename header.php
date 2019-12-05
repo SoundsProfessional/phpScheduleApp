@@ -33,14 +33,14 @@ include_once('dbTdFuncs.php');
 <body>
 <table width="100%" cellpadding="12" cellspacing="0" border="0">
     <tr bgcolor="black">
-        <td align="left"><a href="../BizFunctions/indexB.php"><img src="logo.gif" alt="TLA logo" height="70" width="70"></a>
+        <td align="left"><a href="../BizFunctions/indexB.php"><img src="WHO CARES ABOUT THIS" alt="dev Biz Shortcut" height="70" width="70"></a>
         </td>
         <td>
             <h1>Schedule Viewer and Composer</h1><br/>
             <p class="foot">The entire contents of $_POST is being displayed here as a service:
                 <br/> <?php echo getVariableDump(); ?></p>
         </td>
-        <td align="right"><a href="../EmpFunctions/indexE.php"><img src="logo.gif" alt="TLA logo" height="70"
+        <td align="right"><a href="../EmpFunctions/indexE.php"><img src="I DONT HAVE A STUPID IMAGE" alt="dev Employee Shortcut" height="70"
                                                                     width="70"></a></td>
     </tr>
 </table>

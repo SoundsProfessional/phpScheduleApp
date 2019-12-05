@@ -19,8 +19,14 @@ $bizName = isset($_POST['bizName'])? $_POST['bizName']:null;
 
 $query = "";
 
-if (preg_grep('/worker/', array_keys($_POST))) {
+if (preg_grep ( '/bizName/', array_keys($_GET))) {
+echo 'you have entered from login, BIZ!';
+$_SESSION['bizName'] = $_GET['bizName'];
+}
 
+if (preg_grep('/worker/', array_keys($_POST))) {
+//USER IS COMING IN FROM SHAREDSCHEDULE
+//MUST COMPOSE A COMPLEX INSERTION STATEMENT
 
     $statementsToMake = preg_grep('/\d/', array_keys($_POST));
     $tempDate = '';
@@ -52,6 +58,7 @@ if (preg_grep('/worker/', array_keys($_POST))) {
 }
 
 if (preg_grep('/note/', array_keys($_POST))) {
+//USER IS COMING IN FROM SET REQUIREMENTSMONTH
     $notice = "0";
     if (!empty($_POST['notice'])) {
         $notice = $_POST['notice'];

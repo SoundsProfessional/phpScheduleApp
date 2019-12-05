@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 12, 2019 at 02:35 AM
+-- Generation Time: Dec 05, 2019 at 03:49 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -47,10 +47,21 @@ CREATE TABLE `availability` (
 --
 
 INSERT INTO `availability` (`Name`, `Date`, `is`, `7`, `1`, `2`, `3`, `4`, `5`, `6`, `bizName`) VALUES
+('777worker', '2019-07-28', 1, 0, 0, 0, 0, 1, 0, 0, 'november'),
+('777worker', '2019-08-04', 1, 0, 0, 1, 0, 0, 0, 0, 'november'),
 ('HanSolo', '2019-09-01', 0, 0, 0, 0, 0, 0, 0, 0, 'OnlyOneEmployee'),
+('777worker', '2019-09-22', 0, 1, 0, 1, 0, 1, 0, 0, 'november'),
+('777worker', '2019-09-29', 0, 1, 0, 0, 0, 0, 0, 0, 'november'),
+('777worker', '2019-10-06', 1, 1, 1, 1, 1, 1, 1, 1, 'november'),
+('777worker', '2019-10-27', 1, 1, 1, 1, 1, 1, 1, 1, 'november'),
 ('HanSolo', '2019-10-27', 0, 1, 1, 1, 1, 0, 0, 0, 'OnlyOneEmployee'),
+('MisterTuesday', '2019-10-27', 0, 0, 0, 1, 0, 0, 0, 0, 'november'),
+('sevenDayAvailable', '2019-10-27', 0, 1, 1, 1, 1, 1, 1, 1, 'november'),
+('777worker', '2019-11-03', 1, 1, 1, 1, 1, 1, 1, 1, 'november'),
 ('HanSolo', '2019-11-03', 0, 1, 1, 1, 1, 0, 0, 0, 'OnlyOneEmployee'),
 ('HanSolo', '2019-11-10', 0, 1, 1, 1, 1, 1, 1, 1, 'OnlyOneEmployee'),
+('777worker', '2019-12-01', 0, 1, 1, 1, 1, 1, 1, 1, 'november'),
+('wednesdayMan', '2019-12-01', 1, 0, 0, 1, 1, 1, 0, 0, 'november'),
 ('HanSolo', '2019-12-22', 0, 0, 0, 0, 1, 0, 0, 0, 'OnlyOneEmployee');
 
 -- --------------------------------------------------------
@@ -61,24 +72,25 @@ INSERT INTO `availability` (`Name`, `Date`, `is`, `7`, `1`, `2`, `3`, `4`, `5`, 
 
 CREATE TABLE `biz_account` (
   `Name` varchar(100) NOT NULL,
-  `Password` varchar(100) NOT NULL
+  `Password` varchar(100) NOT NULL,
+  `Notice` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `biz_account`
 --
 
-INSERT INTO `biz_account` (`Name`, `Password`) VALUES
-('', ''),
-('awefas', 'waefa'),
-('december', 'x'),
-('JustOneEmployee', 'password'),
-('november', '8'),
-('OnlyOneEmployee', 'password'),
-('secretKitchen', 'asdf'),
-('singleWorker', 'password'),
-('wefwef', 'wefwef'),
-('xxx', 'xxx');
+INSERT INTO `biz_account` (`Name`, `Password`, `Notice`) VALUES
+('', '', NULL),
+('awefas', 'waefa', NULL),
+('december', 'x', NULL),
+('JustOneEmployee', 'password', NULL),
+('november', '8', 11),
+('OnlyOneEmployee', 'password', NULL),
+('secretKitchen', 'asdf', NULL),
+('singleWorker', 'password', NULL),
+('wefwef', 'wefwef', NULL),
+('xxx', 'xxx', NULL);
 
 -- --------------------------------------------------------
 
@@ -98,20 +110,25 @@ CREATE TABLE `employee_account` (
 
 INSERT INTO `employee_account` (`bizName`, `Name`, `Password`) VALUES
 ('november', '123', '123'),
+('november', '777worker', 'asdf'),
 ('november', 'AlwaysAvail', 'd'),
 ('november', 'asdf', '3we'),
 ('november', 'asdfaw', 'gaa'),
+('november', 'avWeekendSchSu', 'asdf'),
 ('november', 'bananas', 'dsdf'),
 ('november', 'bob', '234'),
 ('november', 'Connor', '123'),
 ('december', 'explodrix', 'sdfa'),
 ('OnlyOneEmployee', 'HanSolo', 'password'),
+('november', 'MisterTuesday', 'asdf'),
+('november', 'sevenDayAvailable', 'sadf'),
 ('november', 'sundaysam', 'sdf'),
 ('november', 'testolio', 'asdf'),
 ('november', 'testts', 'awers'),
 ('november', 'trew', 'trew'),
 ('november', 'tuesdays', 's'),
 ('december', 'tuyg', 'd'),
+('november', 'wednesdayMan', 'asdf'),
 ('november', 'weekendMan', 'x');
 
 -- --------------------------------------------------------
@@ -133,60 +150,44 @@ CREATE TABLE `explicitListDayEmp` (
 --
 
 INSERT INTO `explicitListDayEmp` (`bizName`, `empName`, `monDate`, `isDefault`, `dayIncr`) VALUES
-('november', 'weekendMan', '2019-11-13', 0, '`3`'),
-('november', 'tuyg', '2019-11-14', 0, '`4`'),
-('november', 'Connor', '2019-11-10', 1, '`7`'),
-('november', 'weekendMan', '2019-11-10', 1, '`1`'),
-('november', 'tuyg', '2019-10-27', 0, '`7`'),
-('november', 'weekendMan', '2019-10-27', 0, '`1`'),
-('november', 'weekendMan', '2019-10-27', 0, '`2`'),
-('november', 'weekendMan', '2019-10-27', 0, '`3`'),
-('november', 'tuyg', '2019-10-27', 0, '`4`'),
-('november', 'tuyg', '2019-10-27', 0, '`5`'),
-('november', 'tuyg', '2019-10-27', 0, '`6`'),
-('OnlyOneEmployee', 'HanSolo', '2019-10-27', 0, '`7`'),
-('OnlyOneEmployee', 'HanSolo', '2019-10-27', 0, '`1`'),
-('OnlyOneEmployee', 'HanSolo', '2019-03-10', 0, '`2`'),
-('OnlyOneEmployee', 'HanSolo', '2019-09-29', 0, '`3`'),
-('OnlyOneEmployee', 'HanSolo', '2019-10-20', 1, '`6`');
+('november', '777worker', '2019-11-03', 1, '`1`'),
+('november', '777worker', '2019-11-03', 1, '`2`'),
+('november', '777worker', '2019-11-03', 1, '`3`'),
+('november', '777worker', '2019-11-03', 1, '`4`'),
+('november', '777worker', '2019-11-03', 1, '`5`'),
+('november', '777worker', '2019-11-03', 1, '`6`'),
+('november', '777worker', '2019-11-03', 1, '`7`'),
+('november', '777worker', '2019-12-08', 1, '`1`'),
+('november', '777worker', '2019-12-08', 1, '`4`'),
+('november', '777worker', '2019-12-08', 1, '`5`'),
+('november', '777worker', '2019-12-08', 1, '`6`'),
+('november', '777worker', '2019-12-08', 1, '`7`'),
+('november', 'MisterTuesday', '2019-12-08', 1, '`2`'),
+('november', 'wednesdayMan', '2019-12-08', 1, '`3`');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `explicitSchedule`
+-- Table structure for table `messageEntry`
 --
 
-CREATE TABLE `explicitSchedule` (
-  `bizName` varchar(100) NOT NULL,
-  `monDate` date NOT NULL,
-  `isDefault` tinyint(1) NOT NULL
+CREATE TABLE `messageEntry` (
+  `message` varchar(500) NOT NULL,
+  `date` date NOT NULL,
+  `emplName` varchar(100) NOT NULL,
+  `bizName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `explicitSchedule`
+-- Dumping data for table `messageEntry`
 --
 
-INSERT INTO `explicitSchedule` (`bizName`, `monDate`, `isDefault`) VALUES
-('november', '2019-11-03', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `requirement`
---
-
-CREATE TABLE `requirement` (
-  `bizName` varchar(100) NOT NULL,
-  `monDate` date NOT NULL,
-  `7` tinyint(4) DEFAULT 0,
-  `1` tinyint(4) DEFAULT 0,
-  `2` tinyint(4) DEFAULT 0,
-  `3` tinyint(4) DEFAULT 0,
-  `4` tinyint(4) DEFAULT 0,
-  `5` tinyint(4) DEFAULT 0,
-  `6` tinyint(4) DEFAULT 0,
-  `isDefault` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `messageEntry` (`message`, `date`, `emplName`, `bizName`) VALUES
+('test value', '2019-07-28', '777worker', ''),
+('requestValues', '2019-12-02', 'avWeekendSchSu', 'november'),
+('the second message', '2019-12-02', 'avWeekendSchSu', 'november'),
+('the future message', '2019-12-03', 'avWeekendSchSu', 'november'),
+('the second message', '2019-12-02', 'avWeekendSchSu', 'november');
 
 --
 -- Indexes for dumped tables
@@ -216,22 +217,9 @@ ALTER TABLE `employee_account`
 -- Indexes for table `explicitListDayEmp`
 --
 ALTER TABLE `explicitListDayEmp`
+  ADD PRIMARY KEY (`bizName`,`empName`,`monDate`,`dayIncr`),
   ADD KEY `bizName` (`bizName`),
   ADD KEY `empName` (`empName`);
-
---
--- Indexes for table `explicitSchedule`
---
-ALTER TABLE `explicitSchedule`
-  ADD PRIMARY KEY (`monDate`,`bizName`),
-  ADD KEY `bizName` (`bizName`);
-
---
--- Indexes for table `requirement`
---
-ALTER TABLE `requirement`
-  ADD PRIMARY KEY (`monDate`,`bizName`),
-  ADD KEY `bizName` (`bizName`);
 
 --
 -- Constraints for dumped tables
@@ -255,18 +243,6 @@ ALTER TABLE `employee_account`
 ALTER TABLE `explicitListDayEmp`
   ADD CONSTRAINT `explicitListDayEmp_ibfk_1` FOREIGN KEY (`bizName`) REFERENCES `biz_account` (`Name`),
   ADD CONSTRAINT `explicitListDayEmp_ibfk_2` FOREIGN KEY (`empName`) REFERENCES `employee_account` (`Name`);
-
---
--- Constraints for table `explicitSchedule`
---
-ALTER TABLE `explicitSchedule`
-  ADD CONSTRAINT `explicitSchedule_ibfk_1` FOREIGN KEY (`bizName`) REFERENCES `biz_account` (`Name`);
-
---
--- Constraints for table `requirement`
---
-ALTER TABLE `requirement`
-  ADD CONSTRAINT `requirement_ibfk_1` FOREIGN KEY (`bizName`) REFERENCES `biz_account` (`Name`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -84,9 +84,17 @@ if (preg_grep ( '/sunDateMirror/', array_keys($_POST))) {
     }
 
 
+
+//USER IS ENTERING FROM LOGIN
+if (preg_grep ( '/empName/', array_keys($_GET))) {
+echo 'you have entered from login, EMP!';
+$_SESSION['empName'] = $_GET['empName'];
+$_SESSION['bizName'] = $_GET['bizName'];
+echo 'Welcome, ' . $_SESSION['empName'] . "!!";
+}
+
+
 //THE USER IS ENTERING FROM CREATE_ACCOUNT
-
-
 if (preg_grep ( '/empName/', array_keys($_POST))) {
     //User is coming in from createAccount
     $_SESSION['empName'] = $_POST['empName'];

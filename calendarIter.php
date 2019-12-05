@@ -33,20 +33,13 @@ class CalendarIter
     }
 
     public function show($payload, $func)
+    //THE CELL CREATOR WORKS ON AN ITERATIVE BASIS
 
     {
         $this->workTime = $_GET['currT'];
         $this->cellCreator = new $func();
-        //$orphanedCellCreator = new $func(); //what was I doing here, I am confused.
-        //none of these creators have constructors, i guess maybe there is a default constructor for them.
-
-
-
-//        $this->cellCreator = $func;
-//        $orphanedCellCreator = new $func(); //what was I doing here, I am confused.
-
-
         $contents = $this->cellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth, $this->weekOrMonth);
+
         //FIRST WE ITERATE BACKWARDS
 
         while (!$this->haltDecrementation()) {
@@ -56,15 +49,15 @@ class CalendarIter
                     $this->weekOrMonth
                 ) . $contents;
         }
-
         $this->workTime = intval($_GET['currT']) + 86400;
+
         //THEN WE ITERATE FORWARDS
+
         while (!$this->haltIncrementation()) { //the forwards iteration
             $contents .= $this->cellCreator->show($this->workTime, $payload . '?weekOrMonth=' . $this->weekOrMonth,
                 $this->weekOrMonth
             );
             $this->workTime += 86400;
-//            echo 'inc'.$this->workTime;
         }
         $contents .= '</ul>';
 
@@ -73,36 +66,32 @@ class CalendarIter
 
             $contents .= '<div class="clear" style="width:100%">
     <input type="hidden" name="currT" value=' . $_GET['currT'] . '>
-    <input type="checkbox" name="DefaultP">Consider this as a default week 
+    <input type="checkbox" name="DefaultP">Consider this as a default week
     <input type="submit"></div>';
 
         }
         return $contents;
     }
-
+    //THESE ARE THE RULES TO FIND THE TOP-LEFT CORNER OF THE CALENDAR
     function haltDecrementation()
     {
-        //echo date("N" ,$this->workTime)."  and  ".intval(date('d N', $this->workTime - 86400 ))." > ".intval(date('d N', $this->workTime));
-
-        return ( //it must be a sunnday
-
-            date('N', intval($this->workTime)) == 7 //WTF AM I DOING HERE??
-            && // AND the date has ascended during decrementation
+        return ( //THIS BLOCK TEST WHETHER THE CURRENT DAY IS A SUNDAY
+            date('N', intval($this->workTime)) == 7
+            && // THIS BLOCK CHECKS THAT THE DATE HAS ASCENDED IN DECREMENTATION
+            // MEANING THAT WE HAVE ENTERED A NEW MONTH
             (
                 intval(date('m', $this->workTime - 86400))
                 !=
                 intval(date('m', intval($_GET['currT'])))
-
-                //2nd arg was //intval(['currT'])
-                || // OR we only ever wanted to see a week anyway
+                || // IF IT WAS JUST A WEEK VIEW, WE WILL STOP NOW.
                 $_GET['weekOrMonth'] == 'week'
             )
         );
     }
 
+    //THESE ARE THE RULES TO FIND THE BOTTOM RIGHT CORNER OF THE CALENDAR
     function haltIncrementation()
     {
-        //echo date("N" ,$this->workTime)."  and  ".intval(date('d N', $this->workTime - 86400 ))." > ".intval(date('d N', $this->workTime));
         return ( //it must be a saturday
             date('N', $this->workTime) == 7
             && // AND the month has changed

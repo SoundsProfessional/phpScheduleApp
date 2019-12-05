@@ -1,6 +1,4 @@
-<!--This is a modified version of the sevenDayView, it is the branch of the RequirementsMonth-->
 <!--Connor Ireland-->
-
 <?php
 
 require('../header.php');
@@ -13,4 +11,6 @@ Below lie employee scheduling requests, in chronological order of the request.
 <br/><br/>" . getRequestQueue() . "</div>";
 
 require('../footer.php');
+
+
 ?>
